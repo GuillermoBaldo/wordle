@@ -1,0 +1,22 @@
+{
+    "usuarios": [
+        {
+            "nombre": "guille",
+            "contrase\u00f1a": "guille",
+            "estadisticas": {
+                "puntaje_total": 0,
+                "errores": 0,
+                "niveles_completados": 0
+            }
+        },
+        {
+            "nombre": "valen",
+            "contrase\u00f1a": "valen",
+            "estadisticas": {
+                "puntaje_total": 0,
+                "errores": 0,
+                "niveles_completados": 0
+            }
+        }
+    ]
+}
