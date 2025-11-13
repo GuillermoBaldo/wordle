@@ -5,7 +5,7 @@ import re
 # =========================
 # ARCHIVO: usuarios.json
 # =========================/Users/guille/Documents/computacion/UTN/wordel/archivos.py
-RUTA_USUARIOS = "/Users/guille/Documents/computacion/UTN/wordel/usuarios.json"
+RUTA_USUARIOS = "/Users/Valem uwu/Desktop/Juego 2do parcial/wordle/main.py"
 
 def inicializar_json():
     """Crea el archivo JSON si no existe."""
