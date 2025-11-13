@@ -38,6 +38,11 @@ Durante la partida, dispones de **3 comodines** de uso único, que puedes activa
     print(instrucciones)
 
 def mostrar_menu()->str:
+	"""_La función muestra el menú principal del juego_
+
+	Returns:
+		str: _Opción elegida del jugador_
+	"""
 	print("=== WORDLE ===")
 	print("1) Jugar (palabra aleatoria)")
 	print("2) Jugar (introducir palabra secreta)")
