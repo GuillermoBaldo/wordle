@@ -13,9 +13,8 @@ El juego se compone de **5 niveles**, y cada nivel contiene **3 partidas**.
 
 ### ⚙️ Mecánicas por Nivel:
 * Se te indicará en qué nivel te encuentras.
-* **Pérdida de Vida:** Cada vez que realices una combinación incorrecta, **pierdes una vida**.
+* **Pérdida de Vida:** Cada vez que pierdas una partida, **pierdes una vida**.
 * **Reinicio de Nivel:** Si pierdes las **3 vidas**, el nivel se **reinicia**.
-* **Límite de Reinicios:** Dispones de un máximo de **3 reinicios** durante todo el juego. Si agotas los 3 reinicios, pierdes la partida completa.
 
 ### 📊 Resumen de Progreso:
 Al finalizar un nivel, se mostrará un resumen de tu progreso, que incluye:
@@ -25,11 +24,11 @@ Al finalizar un nivel, se mostrará un resumen de tu progreso, que incluye:
 
 ## 💡 Comodines (Uso Único)
 ---
-Durante la partida, dispones de **3 comodines** de uso único, que puedes activar en cualquier momento:
+Durante la partida, dispones de **3 comodines** de uso único, que puedes activar en cualquier momento de la partida:
 
 1.  **🔍 Revelar letra:** Muestra una letra válida en su respectiva posición.
 2.  **🔗 Temática:** Muestra una temática relacionada con la palabra a revelar.
-3.  **🧠 Comodín extra:** A definir por el equipo de desarrollo.
+3.  **🧠 Comodín extra:** Muestra una letra en una posición incorrecta.
 
 ## 🏆 Final del Juego
 ---
@@ -39,7 +38,7 @@ Durante la partida, dispones de **3 comodines** de uso único, que puedes activa
     print(instrucciones)
 
 def mostrar_menu()->str:
-	print("=== WORDEL ===")
+	print("=== WORDLE ===")
 	print("1) Jugar (palabra aleatoria)")
 	print("2) Jugar (introducir palabra secreta)")
 	print("3) Instrucciones")
