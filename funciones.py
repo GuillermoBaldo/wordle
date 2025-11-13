@@ -86,12 +86,13 @@ def mostrar_feedback(adivinanza, secreto):
 	mostrar_lista_colores(resultado)
 
 
-def jugar(nivel, partida, vidas, puntos, comodines_usados, secreto=None):
-	secreto , tema, intentos, errores, ganaste, bandera_comodines = configurar_partida(secreto)
-	ganaste, intentos, errores, comodines_usados=jugar_partida(nivel, partida, vidas, puntos, intentos, errores, tema , bandera_comodines , comodines_usados ,secreto)
+def jugar(estado_partida):
+	configurar_partida(estado_partida, estado_partida["secreto"]) 
+	#ganaste, intentos, errores, comodines_usados=jugar_partida(nivel, partida, vidas, puntos, intentos, errores, tema , bandera_comodines , comodines_usados ,secreto)
+	ganaste=jugar_partida(estado_partida)
 	if not ganaste:
-		print(f"Se acabaron los intentos. La palabra era: {RED}{secreto}{RESET}\n")
-	return ganaste , intentos , errores , comodines_usados
+		print(f"Se acabaron los intentos. La palabra era: {RED}{estado_partida["secreto"]}{RESET}\n")
+	
 
 def jugar_secreto(nivel, partida , vidas, puntaje):
 	secreto = input("Introduce la palabra secreta (5 letras, no se mostrará): ")
@@ -126,40 +127,40 @@ def revelar_letra(secreto , desorden=False):
 		print()
 	return letra
 
-def sistema_comodines(palabra_validada, secreto, tema, bandera_comodines, comodines_usados):
+def sistema_comodines(palabra_validada, estado_partida):
 	if palabra_validada == "AYUDA":
 		opcion = input("Por cada comodin usado se perderan 20 puntos.\n🔍 1.Revelar letra. \n🔗 2.Revelar Temática. \n🧠 3.Revelar letra desordenada. \nIngrese una opcion: ")
+		bandera_comodines = estado_partida["bandera_comodines"]	
 		match opcion:
-			case "1":
-				if bandera_comodines[0]:
-					revelar_letra(secreto)
-					comodines_usados += 1
-					bandera_comodines[0] = False
-				else:
-					print("comodin ya usado")
-			case "2":
-				if bandera_comodines[1]:
-					print(f"{GREEN}{tema}{RESET}")
-					comodines_usados += 1
-					bandera_comodines[1] = False
-				else:
-					print("comodin ya usado")
-			case "3":
-				if bandera_comodines[2]:
-					revelar_letra(secreto, True)
-					comodines_usados += 1
-					bandera_comodines[2] = False
-				else:
-					print("comodin ya usado")
-			case _:
-				print("opcion invalida.")
-	return bandera_comodines, comodines_usados
+				case "1":
+					if bandera_comodines[0]:
+						revelar_letra(estado_partida["secreto"])
+						estado_partida["comodines_usados"] += 1
+						bandera_comodines[0] = False
+					else:
+						print("comodin ya usado")
+				case "2":
+					if bandera_comodines[1]:
+						print(f"{GREEN}{estado_partida["tema"]}{RESET}")
+						estado_partida["comodines_usados"] += 1
+						bandera_comodines[1] = False
+					else:
+						print("comodin ya usado")
+				case "3":
+					if bandera_comodines[2]:
+						revelar_letra(estado_partida["secreto"], True)
+						estado_partida["comodines_usados"] += 1
+						bandera_comodines[2] = False
+					else:
+						print("comodin ya usado")
+				case _:
+					print("opcion invalida.")
+		return bandera_comodines
 
-def jugar_partida(nivel, partida, vidas, puntos, intentos, errores, tema , bandera_comodines , comodines_usados,secreto):
-	ganaste = False
-	while intentos <= MAX_ATTEMPTS:
-		print(f"Nivel {nivel} | Partida {partida} | Vidas {vidas} | Puntos {puntos}")
-		palabra = input(f"Intento {intentos}/{MAX_ATTEMPTS}: ")
+def jugar_partida(estado_partida):
+	while estado_partida["intentos"] <= MAX_ATTEMPTS:
+		print(f"Nivel {estado_partida["nivel"]} | Partida {estado_partida["partida"]} | Vidas {estado_partida["vidas"]} | Puntos {estado_partida["puntaje"]}")
+		palabra = input(f"Intento {estado_partida["intentos"]}/{MAX_ATTEMPTS}: ")
 		palabra = normalizar_palabra(palabra)
 		palabra_validada = validar_adivinanza(palabra)
 		
@@ -168,27 +169,28 @@ def jugar_partida(nivel, partida, vidas, puntos, intentos, errores, tema , bande
 			print("Entrada inválida. Introduce exactamente 5 letras.")
 			continue
 
-		bandera_comodines, comodines_usados = sistema_comodines(palabra_validada, secreto, tema, bandera_comodines, comodines_usados)
+		sistema_comodines(palabra_validada, estado_partida)
 
-		if palabra_validada == secreto:
-			print(f"¡Felicidades! Adivinaste la palabra en {GREEN}{intentos}{RESET} intentos.\n")
-			ganaste = True
+		if palabra_validada == estado_partida["secreto"]:
+			mostrar_feedback(palabra_validada, estado_partida["secreto"])
+			print(f"¡Felicidades! Adivinaste la palabra en {GREEN}{estado_partida["intentos"]}{RESET} intentos.\n")
+			estado_partida["ganaste"] = True
 			break
-		elif palabra_validada != secreto and palabra_validada != "AYUDA":
-			mostrar_feedback(palabra_validada, secreto)
-			intentos += 1
-			errores +=1
-	return ganaste , intentos , errores , comodines_usados
+		elif palabra_validada != estado_partida["secreto"] and palabra_validada != "AYUDA":
+			mostrar_feedback(palabra_validada, estado_partida["secreto"])
+			estado_partida["intentos"] += 1
+			estado_partida["errores"] +=1
+	return estado_partida["ganaste"]
 
-def configurar_partida(secreto):
-	if secreto == None:
+def configurar_partida(estado_partida, secreto):
+	secreto = None
+	if secreto is None:
 		secreto, tema = elegir_palabrav2()
-	else:
-		secreto = normalizar_palabra(secreto)
-	intentos = 1
-	errores=0
-	print(f"\nTienes {GREEN}{MAX_ATTEMPTS}{RESET} intentos para adivinar una palabra de 5 letras.")
-	print(f'Ingrese la palabra "{GREEN}ayuda{RESET}" para poder acceder a los comodines ')
-	ganaste = False
-	bandera_comodines = [True, True, True]
-	return secreto , tema, intentos, errores, ganaste, bandera_comodines
+		estado_partida["tema"] = tema
+	print(secreto)
+	estado_partida["intentos"] = 1
+	estado_partida["errores"] = 0
+	estado_partida["comodines_usados"] = 0
+	estado_partida["secreto"] = secreto
+	estado_partida["ganaste"] = False
+	estado_partida["bandera_comodines"] = [True, True, True]
