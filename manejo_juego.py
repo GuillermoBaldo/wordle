@@ -1,5 +1,6 @@
 from datos import *
 from funciones import *
+from archivos import *
 def manejo_niveles(resultado_partida, nivel, partida):
     if resultado_partida:
         if partida == 3:
@@ -40,14 +41,29 @@ def manejo_puntaje(puntaje, intentos, comodines_usados , resultado_partida):
     
     print(f"puntos ganados en la partida: {color}{puntaje_ronda}{RESET}\n")
     puntaje += puntaje_ronda
-    return puntaje
+    return puntaje , puntaje_ronda
 
 def manejo_vidas(vidas, resultado_partida):
     if not resultado_partida:
         vidas -= 1
     return vidas
 
-def menu():
+def menu(usuario: dict):
+    estado = {
+    "nivel": 1,
+    "partida": 1,
+    "vidas": 3,
+    "puntaje": 0,
+    "comodines_usados": 0,
+    "errores": 0,
+    
+    "intentos": 0,
+    
+    
+    
+    
+    }
+
     #logueo
     #
     vidas=3
@@ -62,11 +78,13 @@ def menu():
         comodines_usados=0
         match choice:
             case "1":
+                
                 resultado_partida , intentos , intentos_fallidos, comodines_usados = jugar(nivel, partida , vidas, puntaje, comodines_usados)
                 errores += intentos_fallidos
-                puntaje = manejo_puntaje(puntaje, intentos, comodines_usados , resultado_partida)
+                puntaje , puntaje_ronda = manejo_puntaje(puntaje, intentos, comodines_usados , resultado_partida)
                 vidas = manejo_vidas(vidas, resultado_partida)
                 nivel, partida = manejo_niveles(resultado_partida, nivel, partida)
+                actualizar_estadisticas(usuario["nombre"], puntaje_ronda, errores, nivel)
             case "2":
                 jugar_secreto(nivel, partida , vidas, puntaje)
             case "3":

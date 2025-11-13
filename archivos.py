@@ -1,11 +1,12 @@
 import os
 import json
 import re
+import csv
 
 # =========================
 # ARCHIVO: usuarios.json
 # =========================/Users/guille/Documents/computacion/UTN/wordel/archivos.py
-RUTA_USUARIOS = "/Users/guille/Documents/computacion/UTN/wordel/usuarios.json"
+RUTA_USUARIOS = "/Users/guille/Documents/computacion/wordle/usuarios.json"
 
 def inicializar_json():
     """Crea el archivo JSON si no existe."""
@@ -46,15 +47,22 @@ def registrar_usuario(nombre, contraseña):
     print("✅ Usuario registrado correctamente.")
     return True
 
-def login_usuario(nombre, contraseña):
-    """Valida usuario y contraseña."""
+def login_usuario(nombre: str, contraseña: str) -> dict | None:
+    """Valida usuario y contraseña.
+
+    Returns:
+        _str | None_: dict del usuario si es correcto, None si no.
+    """
     data = cargar_usuarios()
+    resultado = None
     for usuario in data["usuarios"]:
         if usuario["nombre"] == nombre and usuario["contraseña"] == contraseña:
             print(f"👋 Bienvenido {nombre}!")
-            return usuario
-    print("❌ Usuario o contraseña incorrectos.")
-    return None
+            resultado = usuario
+            break
+    if not resultado:
+        print("❌ Usuario o contraseña incorrectos.")
+    return resultado
 
 def actualizar_estadisticas(nombre, puntaje, errores, nivel):
     """Actualiza las estadísticas de un usuario."""
@@ -65,11 +73,29 @@ def actualizar_estadisticas(nombre, puntaje, errores, nivel):
             usuario["estadisticas"]["errores"] += errores
             usuario["estadisticas"]["niveles_completados"] = nivel
     guardar_usuarios(data)
+    
+def inicializar_estadisticas(nombre):
+    """Actualiza las estadísticas de un usuario."""
+    data = cargar_usuarios()
+    for usuario in data["usuarios"]:
+        if usuario["nombre"] == nombre:
+            usuario["estadisticas"]["puntaje_total"] = 0
+            usuario["estadisticas"]["errores"] = 0
+            usuario["estadisticas"]["niveles_completados"] = 0
+    guardar_usuarios(data)
 
 # =========================
 # ARCHIVO: partidas.csv
 # =========================
-RUTA_PARTIDAS = "/Users/guille/Documents/computacion/UTN/wordel/partidas.csv"
+RUTA_PARTIDAS = "/Users/guille/Documents/computacion/wordle/partidas.csv"
+
+def cargar_config():
+    config = {}
+    with open("config.csv", newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            config[row["key"]] = row["value"]
+    return config
 
 def inicializar_csv():
     """Crea el archivo CSV si no existe."""
