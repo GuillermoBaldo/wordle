@@ -1,12 +1,12 @@
 import os
 import json
 import re
-import csv
+
 
 # =========================
 # ARCHIVO: usuarios.json
 # =========================/Users/guille/Documents/computacion/UTN/wordel/archivos.py
-RUTA_USUARIOS = "/Users/guille/Documents/computacion/wordle/usuarios.json"
+RUTA_USUARIOS = "/Users/guille/Documents/computacion/wordle/archivos/usuarios.json"
 
 def inicializar_json():
     """Crea el archivo JSON si no existe."""
@@ -84,59 +84,59 @@ def inicializar_estadisticas(nombre):
             usuario["estadisticas"]["niveles_completados"] = 0
     guardar_usuarios(data)
 
-# =========================
-# ARCHIVO: partidas.csv
-# =========================
-RUTA_PARTIDAS = "/Users/guille/Documents/computacion/wordle/partidas.csv"
+# # =========================
+# # ARCHIVO: partidas.csv
+# # =========================
+# RUTA_PARTIDAS = "/Users/guille/Documents/computacion/wordle/partidas.csv"
 
-def cargar_config():
-    config = {}
-    with open("config.csv", newline="", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            config[row["key"]] = row["value"]
-    return config
+# def cargar_config():
+#     config = {}
+#     with open("config.csv", newline="", encoding="utf-8") as f:
+#         reader = csv.DictReader(f)
+#         for row in reader:
+#             config[row["key"]] = row["value"]
+#     return config
 
-def inicializar_csv():
-    """Crea el archivo CSV si no existe."""
-    if not os.path.exists(RUTA_PARTIDAS):
-        with open(RUTA_PARTIDAS, "w") as archivo:
-            archivo.write("nombre,nivel,partida,palabra,resultado,puntaje,errores\n")
+# def inicializar_csv():
+#     """Crea el archivo CSV si no existe."""
+#     if not os.path.exists(RUTA_PARTIDAS):
+#         with open(RUTA_PARTIDAS, "w") as archivo:
+#             archivo.write("nombre,nivel,partida,palabra,resultado,puntaje,errores\n")
 
-def guardar_partida(nombre, nivel, partida, palabra, resultado, puntaje, errores):
-    """Guarda los datos de una partida en el CSV."""
-    inicializar_csv()
-    linea = f"{nombre},{nivel},{partida},{palabra},{resultado},{puntaje},{errores}\n"
-    with open(RUTA_PARTIDAS, "a") as archivo:
-        archivo.write(linea)
+# def guardar_partida(nombre, nivel, partida, palabra, resultado, puntaje, errores):
+#     """Guarda los datos de una partida en el CSV."""
+#     inicializar_csv()
+#     linea = f"{nombre},{nivel},{partida},{palabra},{resultado},{puntaje},{errores}\n"
+#     with open(RUTA_PARTIDAS, "a") as archivo:
+#         archivo.write(linea)
 
-def parser_csv(path) -> list:
-    """
-    Lee el CSV con regex y devuelve una lista de diccionarios.
-    Usa el mismo formato del ejemplo dado por el usuario.
-    """
-    lista_partidas = []
+# def parser_csv(path) -> list:
+#     """
+#     Lee el CSV con regex y devuelve una lista de diccionarios.
+#     Usa el mismo formato del ejemplo dado por el usuario.
+#     """
+#     lista_partidas = []
 
-    if not os.path.exists(path):
-        print(f"⚠️ El archivo {path} no existe.")
-        return lista_partidas
+#     if not os.path.exists(path):
+#         print(f"⚠️ El archivo {path} no existe.")
+#         return lista_partidas
 
-    with open(path, "r") as archivo:
-        encabezado = True
-        for linea in archivo:
-            if encabezado:
-                encabezado = False
-                continue
-            dicionario = {}
-            lista = re.split(",|\n", linea.strip())
-            if len(lista) >= 7:
-                dicionario["nombre"] = lista[0]
-                dicionario["nivel"] = lista[1]
-                dicionario["partida"] = lista[2]
-                dicionario["palabra"] = lista[3]
-                dicionario["resultado"] = lista[4]
-                dicionario["puntaje"] = lista[5]
-                dicionario["errores"] = lista[6]
-                lista_partidas.append(dicionario)
+#     with open(path, "r") as archivo:
+#         encabezado = True
+#         for linea in archivo:
+#             if encabezado:
+#                 encabezado = False
+#                 continue
+#             dicionario = {}
+#             lista = re.split(",|\n", linea.strip())
+#             if len(lista) >= 7:
+#                 dicionario["nombre"] = lista[0]
+#                 dicionario["nivel"] = lista[1]
+#                 dicionario["partida"] = lista[2]
+#                 dicionario["palabra"] = lista[3]
+#                 dicionario["resultado"] = lista[4]
+#                 dicionario["puntaje"] = lista[5]
+#                 dicionario["errores"] = lista[6]
+#                 lista_partidas.append(dicionario)
 
-    return lista_partidas
+#     return lista_partidas

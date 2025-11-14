@@ -40,13 +40,12 @@ Durante la partida, dispones de **3 comodines** de uso único, que puedes activa
 def mostrar_menu()->str:
 	print("=== WORDLE ===")
 	print("1) Jugar (palabra aleatoria)")
-	print("2) Jugar (introducir palabra secreta)")
-	print("3) Instrucciones")
-	print("4) Salir")
-	choice = input("Elige una opción (1-4): ")
+	print("2) Instrucciones")
+	print("3) Salir")
+	choice = input("Elige una opción (1-3): ")
 	choice = mi_strip(choice)
-	while choice > "4" or choice < "1":
-		choice = input("Opción inválida. Elige una opción (1-4): ")
+	while choice > "3" or choice < "1":
+		choice = input("Opción inválida. Elige una opción (1-3): ")
 		choice = mi_strip(choice)
 	return choice  
 
@@ -93,13 +92,6 @@ def jugar(estado_partida):
 	if not ganaste:
 		print(f"Se acabaron los intentos. La palabra era: {RED}{estado_partida["secreto"]}{RESET}\n")
 	
-
-def jugar_secreto(nivel, partida , vidas, puntaje):
-	secreto = input("Introduce la palabra secreta (5 letras, no se mostrará): ")
-	secreto = normalizar_palabra(secreto)
-	if validar_input(validar_adivinanza(secreto), None):
-		jugar(nivel, partida , vidas, puntaje ,secreto)
-
 
 def letra_aleatoria(palabra):
     indice = random.randrange(len(palabra))
