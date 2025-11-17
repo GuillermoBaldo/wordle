@@ -56,20 +56,43 @@ def mostrar_menu()->str:
 	return choice  
 
 
-def elegir_palabrav2():
-    tema = random.choice(list(PALABRAS_TEMATICAS.keys()))
-    palabra = random.choice(PALABRAS_TEMATICAS[tema])
-    palabra = normalizar_palabra(palabra)
-    return palabra, tema
+def elegir_palabrav2() -> tuple [str, str]:
+	"""Elige aleatoriamente una palabra y su tema desde el diccionario PALABRAS_TEMATICAS.
+
+	Returns:
+		tuple [str, str]: Una tupla con la palabra seleccionada y el tema correspondiente.
+	"""
+	tema = random.choice(list(PALABRAS_TEMATICAS.keys()))
+	palabra = random.choice(PALABRAS_TEMATICAS[tema])
+	palabra = normalizar_palabra(palabra)
+	return palabra, tema
+
 
 def validar_adivinanza(palabra: str) -> str | None:
+	"""Valida que la palabra ingresada tenga 5 letras y contenga solo caracteres alfabéticos.
+
+	Args:
+		palabra (str): Palabra a validar.
+
+	Returns:
+		str | None: La palabra normalizada si es válida, o None si no lo es.
+	"""
 	palabra = normalizar_palabra(palabra)
 	resultado = palabra
 	if len(palabra) != 5 or not es_string(palabra):
 		resultado = None
 	return resultado
 
-def mostrar_feedback(adivinanza, secreto):
+def mostrar_feedback(adivinanza: str, secreto: str) -> None:
+	"""Muestra por consola un feedback pintado de la adivinanza según la coincidencia con la palabra.
+
+	Args:
+		adivinanza (str): Palabra ingresada por el jugador.
+		secreto (str): Palabra secreta a adivinar
+
+	Returns:
+		None
+	"""
 	resultado = [""] * 5
 	secreto_lista = list(secreto)
 
