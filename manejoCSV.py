@@ -133,6 +133,47 @@ def guardar_estado_jugador(ruta, estado):
 # ============================
 #  MANEJO DE PALABRAS
 # ============================
+def cargar_palabrasv2(ruta):
+    """
+    Carga un archivo CSV de palabras con forma:
+    animales,paises,tecnologia,...
+    tigre,chile,robot,...
+    cebra,china,cable,...
+    ...
+
+    Y devuelve un diccionario:
+    {
+        "animales": [...],
+        "paises": [...],
+        ...
+    }
+    """
+    filas = leer_csv(ruta)
+
+    encabezados = filas[0]
+
+    # Crear diccionario vacío con cada categoría
+    palabras = {}
+    i = 0
+    while i < len(encabezados):
+        categoria = encabezados[i]
+        palabras[categoria] = []
+        i += 1
+
+    # Recorrer las filas y añadir cada palabra a su categoría
+    j = 1
+    while j < len(filas):
+        fila = filas[j]
+        i = 0
+        while i < len(encabezados):
+            categoria = encabezados[i]
+            palabra = fila[i]
+            palabras[categoria].append(palabra)
+            i += 1
+        j += 1
+
+    return palabras
+
 
 def cargar_palabras(ruta):
     """
@@ -166,13 +207,10 @@ def cargar_palabras(ruta):
 
 import random
 
-import random
-
 def elegir_palabra_sin_repetir(palabras):
     """
     Devuelve (palabra, categoria) al azar.
     Quita la palabra elegida del diccionario.
-    SOLO 1 return.
     """
 
     palabra = None

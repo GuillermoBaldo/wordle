@@ -1,12 +1,3 @@
-PALABRAS_TEMATICAS = {
-    "animales": ["tigre","cebra","raton","zorro","burro"],
-    "paises": ["chile","china","india","haiti","japon"],
-    "tecnologia": ["robot","cable","clave","tecla","laser"],
-    "naturaleza": ["barro","hojas","llano","arena","monte"],
-    "comida": ["pizza","arroz ","fruta","leche","salsa"],
-    "objetos": ["silla","plato","libro","lapiz","radio"]
-}
-# ANSI colors
 
 GREEN = "\033[92m"
 YELLOW = "\033[93m"
@@ -38,9 +29,16 @@ def imprimir_diccionario(dicc):
             print(f"{clave}: {valor}")
 
     print("\n=================================\n")
-palabras=cargar_palabras("/Users/guille/Documents/computacion/wordle/archivos/palabras.csv")
-for i in range (10):
+# palabras=cargar_palabrasv2("/Users/guille/Documents/computacion/wordle/archivos/palabras (1).csv")
 
-    x=elegir_palabra_sin_repetir(palabras)
-    imprimir_diccionario(palabras)
-    print(x)
+# print(palabras)
+# for i in range (10):
+
+#     x=elegir_palabra_sin_repetir(palabras)
+#     imprimir_diccionario(palabras)
+#     print(x[0], x[1])
+
+# palabras=cargar_config("/Users/guille/Documents/computacion/wordle/archivos/config.csv") 
+# print(palabras["GREEN"])
+# imprimir_diccionario(palabras)
+

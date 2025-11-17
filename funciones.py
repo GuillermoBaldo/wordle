@@ -47,14 +47,11 @@ def mostrar_menu()->str:
 	while choice > "3" or choice < "1":
 		choice = input("Opción inválida. Elige una opción (1-3): ")
 		choice = mi_strip(choice)
-	return choice  
+	return choice 
 
-
-def elegir_palabrav2():
-    tema = random.choice(list(PALABRAS_TEMATICAS.keys()))
-    palabra = random.choice(PALABRAS_TEMATICAS[tema])
-    palabra = normalizar_palabra(palabra)
-    return palabra, tema
+def importar_configuracion(ruta):
+    estado_jugador = cargar_config(ruta)
+    return estado_jugador
 
 def validar_adivinanza(palabra: str) -> str | None:
 	palabra = normalizar_palabra(palabra)
@@ -64,6 +61,15 @@ def validar_adivinanza(palabra: str) -> str | None:
 	return resultado
 
 def mostrar_feedback(adivinanza, secreto):
+	config = importar_configuracion("/Users/guille/Documents/computacion/wordle/archivos/config.csv")
+	green = str(config["GREEN"])
+	#green= green.split("")[1]
+	yellow = str(config["YELLOW"])
+	gray = str(config["GRAY"])
+	reset = str(config["RESET"])
+	#print(green, yellow, gray, reset)  # Verifica que los códigos de color se hayan importado correctamente
+	print(GREEN, YELLOW, GRAY, RESET) 
+
 	resultado = [""] * 5
 	secreto_lista = list(secreto)
 
@@ -76,21 +82,21 @@ def mostrar_feedback(adivinanza, secreto):
 		if resultado[i] != "":
 			continue  # ya está verde
 		if contiene(secreto_lista, adivinanza[i]):
-			resultado[i] = f"{YELLOW}{adivinanza[i]}{RESET}"
+			resultado[i] = f"{yellow}{adivinanza[i]}{reset}"
 			idx = buscar_indice(secreto_lista, adivinanza[i])
 			secreto_lista[idx] = None
 		else:
-			resultado[i] = f"{GRAY}{adivinanza[i]}{RESET}"
+			resultado[i] = f"{gray}{adivinanza[i]}{reset}"
 
 	mostrar_lista_colores(resultado)
 
 
-def jugar(estado_partida):
-	configurar_partida(estado_partida, estado_partida["secreto"]) 
-	#ganaste, intentos, errores, comodines_usados=jugar_partida(nivel, partida, vidas, puntos, intentos, errores, tema , bandera_comodines , comodines_usados ,secreto)
-	ganaste=jugar_partida(estado_partida)
-	if not ganaste:
-		print(f"Se acabaron los intentos. La palabra era: {RED}{estado_partida["secreto"]}{RESET}\n")
+def jugar(estado_partida, palabras):
+	config = importar_configuracion("/Users/guille/Documents/computacion/wordle/archivos/config.csv")
+	configurar_partida(estado_partida, palabras,) 
+	jugar_partida(estado_partida)
+	if not estado_partida["ganaste"]:
+		print(f"Se acabaron los intentos. La palabra era: {config["RED"]}{estado_partida["secreto"]}{config["RESET"]}\n")
 	
 
 def letra_aleatoria(palabra):
@@ -99,13 +105,14 @@ def letra_aleatoria(palabra):
     return letra, indice
 
 def revelar_letra(secreto , desorden=False):
+	config = importar_configuracion("/Users/guille/Documents/computacion/wordle/archivos/config.csv")
 	letra , posicion = letra_aleatoria(secreto)
 	if not desorden:
 		for i in range (5):
 			if i == posicion:
-				print(f"{GREEN}{letra}{RESET}", end=" ")
+				print(f"{config["GREEN"]}{letra}{config["RESET"]}", end=" ")
 			else:
-				print(f"{GRAY}X{RESET}", end=" ")
+				print(f"{config["GRAY"]}X{config["RESET"]}", end=" ")
 		print()
 	else:
 		posicion_aleatoria = random.randint(1, 5)
@@ -113,13 +120,14 @@ def revelar_letra(secreto , desorden=False):
 			posicion_aleatoria = random.randint(1, 5)
 		for i in range (5):
 			if i == posicion_aleatoria:
-				print(f"{YELLOW}{letra}{RESET}", end=" ")
+				print(f"{config["YELLOW"]}{letra}{config["RESET"]}", end=" ")
 			else:
-				print(f"{GRAY}X{RESET}", end=" ")
+				print(f"{config["GREY"]}X{config["RESET"]}", end=" ")
 		print()
 	return letra
 
 def sistema_comodines(palabra_validada, estado_partida):
+	config = importar_configuracion("/Users/guille/Documents/computacion/wordle/archivos/config.csv")
 	if palabra_validada == "AYUDA":
 		opcion = input("Por cada comodin usado se perderan 20 puntos.\n🔍 1.Revelar letra. \n🔗 2.Revelar Temática. \n🧠 3.Revelar letra desordenada. \nIngrese una opcion: ")
 		bandera_comodines = estado_partida["bandera_comodines"]	
@@ -133,7 +141,7 @@ def sistema_comodines(palabra_validada, estado_partida):
 						print("comodin ya usado")
 				case "2":
 					if bandera_comodines[1]:
-						print(f"{GREEN}{estado_partida["tema"]}{RESET}")
+						print(f"{config["GREEN"]}{estado_partida["tema"]}{config["RESET"]}")
 						estado_partida["comodines_usados"] += 1
 						bandera_comodines[1] = False
 					else:
@@ -150,6 +158,7 @@ def sistema_comodines(palabra_validada, estado_partida):
 		return bandera_comodines
 
 def jugar_partida(estado_partida):
+	config = importar_configuracion("/Users/guille/Documents/computacion/wordle/archivos/config.csv")
 	while estado_partida["intentos"] <= MAX_ATTEMPTS:
 		print(f"Nivel {estado_partida["nivel"]} | Partida {estado_partida["partida"]} | Vidas {estado_partida["vidas"]} | Puntos {estado_partida["puntaje"]}")
 		palabra = input(f"Intento {estado_partida["intentos"]}/{MAX_ATTEMPTS}: ")
@@ -165,7 +174,7 @@ def jugar_partida(estado_partida):
 
 		if palabra_validada == estado_partida["secreto"]:
 			mostrar_feedback(palabra_validada, estado_partida["secreto"])
-			print(f"¡Felicidades! Adivinaste la palabra en {GREEN}{estado_partida["intentos"]}{RESET} intentos.\n")
+			print(f"¡Felicidades! Adivinaste la palabra en {config["GREEN"]}{estado_partida["intentos"]}{config["RESET"]} intentos.\n")
 			estado_partida["ganaste"] = True
 			break
 		elif palabra_validada != estado_partida["secreto"] and palabra_validada != "AYUDA":
@@ -174,15 +183,15 @@ def jugar_partida(estado_partida):
 			estado_partida["errores"] +=1
 	return estado_partida["ganaste"]
 
-def configurar_partida(estado_partida, secreto):
-	secreto = None
-	if secreto is None:
-		secreto, tema = elegir_palabrav2()
-		estado_partida["tema"] = tema
-	print(secreto)
+def configurar_partida(estado_partida,palabras):
+
+	palabras_elegidas = elegir_palabra_sin_repetir(palabras)
+	estado_partida["tema"] = palabras_elegidas[1]
+	estado_partida["secreto"] = normalizar_palabra(palabras_elegidas[0])
+
+	print(estado_partida["secreto"])
 	estado_partida["intentos"] = 1
 	estado_partida["errores"] = 0
 	estado_partida["comodines_usados"] = 0
-	estado_partida["secreto"] = secreto
 	estado_partida["ganaste"] = False
 	estado_partida["bandera_comodines"] = [True, True, True]

@@ -1,34 +1,37 @@
 from manejoJSON import *
 from manejo_juego import *
 def main():
-    usuario = login_completo()
-
+    usuario = login()
     if usuario != None:
-        print(f"\nBienvenido/a {usuario["nombre"]}! Cargando el menú del juego...\n")
         inicializar_estadisticas(usuario["nombre"])  # Aseguramos que las estadísticas estén inicializadas
         menu(usuario)  
 
-def login_completo():
-    print("=== LOGIN ===")
-    nombre = input("Usuario: ")
-    contraseña = input("Contraseña: ")
 
-    # 🔹 Login o registro de usuario
-    usuario = login_usuario(nombre, contraseña)
-    resultado = None
-    if not usuario:
-        entrada = input("¿Deseas registrarte? (s/n): ", end="")
-        entrada = normalizar_palabra(entrada)
-        if entrada == "S":
-            registrar_usuario(nombre, contraseña)
-            usuario = login_usuario(nombre, contraseña)
-            resultado = usuario
-        else:
-            print("Saliendo del juego...")
-            resultado = None
+def login():
+    opcion = input("Primera vez jugando?(s/n): ")
+    opcion = normalizar_palabra(opcion)
+    usuario = None
+    
+    if opcion == "S":
+        print("=== REGISTRO DE USUARIO ===")
+        print(f"Ingresa tus datos para registrarte")
+        nombre = input("Elige un nombre de usuario: ")
+        contraseña = input("Elige una contraseña: ")
+        reingreso = input("Reingresa la contraseña: ")
+        while contraseña != reingreso:
+            print("Las contraseñas no coinciden. Intenta nuevamente.")
+            contraseña = input("Elige una contraseña: ")
+            reingreso = input("Reingresa la contraseña: ")
+        registrar_usuario(nombre, contraseña)
+        print("Registro exitoso. Ahora puedes iniciar sesión.")
+        usuario = login_usuario(nombre, contraseña)
+        
     else:
-        resultado = usuario
-    return resultado
+        print("=== INICIO DE SESIÓN ===")
+        nombre = input("Usuario: ")
+        contraseña = input("Contraseña: ")
+        usuario = login_usuario(nombre, contraseña)
+    return usuario
 
 if __name__ == "__main__":
         main()

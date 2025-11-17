@@ -40,17 +40,18 @@ def manejo_puntaje_derrota(estado_partida, puntos_x_perdida):
         estado_partida["puntaje_ronda"] -= puntos_x_perdida
     
 def manejo_puntaje(estado_partida, puntos_x_comodin = 20, puntos_x_intento = 50 , puntos_x_perdida = 100 ):
+    config = importar_configuracion("/Users/guille/Documents/computacion/wordle/archivos/config.csv")
     estado_partida["puntaje_ronda"] = 0
     
     manejo_puntaje_x_comodines(estado_partida, puntos_x_comodin)
     manejo_puntaje_x_intentos(estado_partida, puntos_x_intento)
     manejo_puntaje_derrota(estado_partida, puntos_x_perdida)
-    color = GREEN
+    color = config["GREEN"]
     
     if estado_partida["puntaje_ronda"] < 0:
-        color = RED
+        color = config["RED"]
     
-    print(f"puntos ganados en la partida: {color}{estado_partida["puntaje_ronda"]}{RESET}\n")
+    print(f"puntos ganados en la partida: {color}{estado_partida["puntaje_ronda"]}{config["RESET"]}\n")
     estado_partida["puntaje"] += estado_partida["puntaje_ronda"]
 
 def manejo_vidas(estado_partida):
@@ -59,20 +60,21 @@ def manejo_vidas(estado_partida):
     return estado_partida["vidas"]
 
 def resumen_nivel(estado_partida):
+    config = importar_configuracion("/Users/guille/Documents/computacion/wordle/archivos/config.csv")
     if estado_partida["nivel"] >1 and estado_partida["partida"] == 1:
-        print(f"{GREEN}Felicidades has pasado al nivel {estado_partida["nivel"]}!{RESET}")
+        print(f"{config["GREEN"]}Felicidades has pasado al nivel {estado_partida["nivel"]}!{config["RESET"]}")
         print("las estadisticas de tu partida son las siguientes:")
         print(f"Puntos Totales {estado_partida["puntaje"]} | Cantidad Errores {estado_partida["errores"]} | Nivel Alcanzado {estado_partida["nivel"] -1 }")
                 
 def menu(usuario: dict):
     inicio = time.time()
-    estado_partida = inicializar_partida()
+    estado_partida , palabras= inicializar_partida()
     choice = mostrar_menu() 
     while  estado_partida["vidas"] != 0 and (estado_partida["partida"] <= 3 and estado_partida["nivel"] <= 3):
         match choice:
             case "1":
                 resumen_nivel(estado_partida)
-                jugar(estado_partida)
+                jugar(estado_partida, palabras)
                 manejo_puntaje(estado_partida)
                 manejo_vidas(estado_partida)
                 manejo_niveles(estado_partida)
@@ -85,6 +87,7 @@ def menu(usuario: dict):
                 break
             case _:
                 print("Opción no válida. Intenta de nuevo.\n")
+                choice = mostrar_menu()
     fin = time.time()
     finalizar_juego(estado_partida, inicio, fin)
 
@@ -104,7 +107,9 @@ def inicializar_partida():
 	"bandera_comodines" :[True, True, True],
     "intentos": 0
     }
-    return estado_partida
+    palabras=cargar_palabrasv2("/Users/guille/Documents/computacion/wordle/archivos/palabras (1).csv")
+
+    return estado_partida , palabras
     
 def finalizar_juego(estado_partida, inicio, fin):
     if estado_partida["vidas"] == 0:
@@ -113,8 +118,9 @@ def finalizar_juego(estado_partida, inicio, fin):
         print("sos todo crack ganaste")
         total_segundos = fin - inicio
 
-        minutos = total_segundos // 60     # división entera, no usa int()
-        segundos = total_segundos % 60     # resto
+        minutos = total_segundos // 60     
+        segundos = total_segundos % 60     
 
         print(f"Tiempo total: {minutos:.0f} min {segundos:.2f} seg")
         print(f"Estadiscas: \nPuntos Totales {estado_partida["puntaje"]} | Cantidad Errores {estado_partida["errores"]} | Nivel Alcanzado {estado_partida["nivel"]}")
+        

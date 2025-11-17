@@ -28,24 +28,26 @@ def guardar_usuarios(data):
 def registrar_usuario(nombre, contraseña):
     """Registra un nuevo usuario si no existe."""
     data = cargar_usuarios()
+    existe_usuario = True
     for usuario in data["usuarios"]:
         if usuario["nombre"] == nombre:
             print("⚠️ El usuario ya existe.")
-            return False
-    
-    nuevo_usuario = {
-        "nombre": nombre,
-        "contraseña": contraseña,
-        "estadisticas": {
-            "puntaje_total": 0,
-            "errores": 0,
-            "niveles_completados": 0
+            existe_usuario = False
+            break
+
+    if existe_usuario:
+        nuevo_usuario = {
+            "nombre": nombre,
+            "contraseña": contraseña,
+            "estadisticas": {
+                "puntaje_total": 0,
+                "errores": 0,
+                "niveles_completados": 0
+            }
         }
-    }
-    data["usuarios"].append(nuevo_usuario)
-    guardar_usuarios(data)
-    print("✅ Usuario registrado correctamente.")
-    return True
+        data["usuarios"].append(nuevo_usuario)
+        guardar_usuarios(data)
+        print("✅ Usuario registrado correctamente.")
 
 def login_usuario(nombre: str, contraseña: str) -> dict | None:
     """Valida usuario y contraseña.
