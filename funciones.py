@@ -61,34 +61,36 @@ def validar_adivinanza(palabra: str) -> str | None:
 	return resultado
 
 def mostrar_feedback(adivinanza, secreto):
-	config = importar_configuracion("/Users/guille/Documents/computacion/wordle/archivos/config.csv")
-	green = str(config["GREEN"])
-	#green= green.split("")[1]
-	yellow = str(config["YELLOW"])
-	gray = str(config["GRAY"])
-	reset = str(config["RESET"])
-	#print(green, yellow, gray, reset)  # Verifica que los códigos de color se hayan importado correctamente
-	print(GREEN, YELLOW, GRAY, RESET) 
+    config = importar_configuracion("/Users/guille/Documents/computacion/wordle/archivos/config.csv")
 
-	resultado = [""] * 5
-	secreto_lista = list(secreto)
+    # Colores que vienen del archivo config.csv
+    green = config["GREEN"]
+    yellow = config["YELLOW"]
+    gray = config["GRAY"]
+    reset = config["RESET"]
 
-	for i in range(5):
-		if adivinanza[i] == secreto[i]:
-			resultado[i] = f"{GREEN}{adivinanza[i]}{RESET}"
-			secreto_lista[i] = None  # se consume la letra
+    resultado = [""] * 5
+    secreto_lista = list(secreto)
 
-	for i in range(5):
-		if resultado[i] != "":
-			continue  # ya está verde
-		if contiene(secreto_lista, adivinanza[i]):
-			resultado[i] = f"{yellow}{adivinanza[i]}{reset}"
-			idx = buscar_indice(secreto_lista, adivinanza[i])
-			secreto_lista[idx] = None
-		else:
-			resultado[i] = f"{gray}{adivinanza[i]}{reset}"
+    # Primera pasada: letras correctas (verde)
+    for i in range(5):
+        if adivinanza[i] == secreto[i]:
+            resultado[i] = f"{green}{adivinanza[i]}{reset}"
+            secreto_lista[i] = None  # Consumir letra
 
-	mostrar_lista_colores(resultado)
+    # Segunda pasada: letra existe pero mal ubicada (amarillo)
+    for i in range(5):
+        if resultado[i] != "":
+            continue  # ya está verde
+        if contiene(secreto_lista, adivinanza[i]):
+            resultado[i] = f"{yellow}{adivinanza[i]}{reset}"
+            idx = buscar_indice(secreto_lista, adivinanza[i])
+            secreto_lista[idx] = None
+        else:
+            resultado[i] = f"{gray}{adivinanza[i]}{reset}"
+
+    mostrar_lista_colores(resultado)
+
 
 
 def jugar(estado_partida, palabras):
