@@ -1,0 +1,10 @@
+key,value
+GREEN,[92m
+YELLOW,[93m
+GRAY,[90m
+RED,[91m
+RESET,[0m
+MAX_ATTEMPTS,6
+MAX_VIDAS,3
+RUTA_PARTIDAS,/Users/guille/Documents/computacion/wordle/partidas.csv
+RUTA_USUARIOS,/Users/guille/Documents/computacion/wordle/usuarios.json

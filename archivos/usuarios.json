@@ -1,0 +1,49 @@
+{
+    "usuarios": [
+        {
+            "nombre": "guille",
+            "contrase\u00f1a": "guille",
+            "estadisticas": {
+                "puntaje_total": 0,
+                "errores": 0,
+                "niveles_completados": 0
+            }
+        },
+        {
+            "nombre": "valen",
+            "contrase\u00f1a": "valen",
+            "estadisticas": {
+                "puntaje_total": 300,
+                "errores": 0,
+                "niveles_completados": 1
+            }
+        },
+        {
+            "nombre": "patru",
+            "contrase\u00f1a": "patri",
+            "estadisticas": {
+                "puntaje_total": 0,
+                "errores": 0,
+                "niveles_completados": 0
+            }
+        },
+        {
+            "nombre": "tomas",
+            "contrase\u00f1a": "1234",
+            "estadisticas": {
+                "puntaje_total": 0,
+                "errores": 0,
+                "niveles_completados": 0
+            }
+        },
+        {
+            "nombre": "XxvalenxXgamer",
+            "contrase\u00f1a": "1234",
+            "estadisticas": {
+                "puntaje_total": 0,
+                "errores": 0,
+                "niveles_completados": 0
+            }
+        }
+    ]
+}
