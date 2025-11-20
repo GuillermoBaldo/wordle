@@ -44,6 +44,24 @@
                 "errores": 0,
                 "niveles_completados": 0
             }
+        },
+        {
+            "nombre": "rocio",
+            "contrase\u00f1a": "rocio",
+            "estadisticas": {
+                "puntaje_total": 0,
+                "errores": 0,
+                "niveles_completados": 0
+            }
+        },
+        {
+            "nombre": "fede",
+            "contrase\u00f1a": "fede",
+            "estadisticas": {
+                "puntaje_total": 0,
+                "errores": 0,
+                "niveles_completados": 0
+            }
         }
     ]
 }

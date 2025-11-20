@@ -1,6 +1,6 @@
-from datos import *
 from funciones import *
 from manejoJSON import *
+from manejoCSV import *
 import time
 
 def manejo_niveles(estado_partida):
@@ -69,8 +69,11 @@ def resumen_nivel(estado_partida):
 def menu(usuario: dict):
     inicio = time.time()
     estado_partida , palabras= inicializar_partida()
+    config = importar_configuracion("/Users/guille/Documents/computacion/wordle/archivos/config.csv")
     choice = mostrar_menu() 
+    print(type(config["MAX_PARTIDAS"]))
     while  estado_partida["vidas"] != 0 and (estado_partida["partida"] <= 3 and estado_partida["nivel"] <= 3):
+    #while  estado_partida["vidas"] != 0 and (estado_partida["partida"] <= config["MAX_PARTIDAS"] and estado_partida["nivel"] <= config["MAX_NIVELES"]):
         match choice:
             case "1":
                 resumen_nivel(estado_partida)
