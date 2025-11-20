@@ -4,9 +4,9 @@
             "nombre": "guille",
             "contrase\u00f1a": "guille",
             "estadisticas": {
-                "puntaje_total": 0,
+                "puntaje_total": 2700,
                 "errores": 0,
-                "niveles_completados": 0
+                "niveles_completados": 4
             }
         },
         {
@@ -57,6 +57,24 @@
         {
             "nombre": "fede",
             "contrase\u00f1a": "fede",
+            "estadisticas": {
+                "puntaje_total": 0,
+                "errores": 0,
+                "niveles_completados": 0
+            }
+        },
+        {
+            "nombre": "marias",
+            "contrase\u00f1a": "marias",
+            "estadisticas": {
+                "puntaje_total": 0,
+                "errores": 0,
+                "niveles_completados": 0
+            }
+        },
+        {
+            "nombre": "thigo",
+            "contrase\u00f1a": "thiago",
             "estadisticas": {
                 "puntaje_total": 0,
                 "errores": 0,

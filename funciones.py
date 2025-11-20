@@ -174,8 +174,8 @@ def sistema_comodines(palabra_validada, estado_partida):
 
 def jugar_partida(estado_partida):
 	config = importar_configuracion("/Users/guille/Documents/computacion/wordle/archivos/config.csv")
-	#while estado_partida["intentos"] <= config["MAX_ATTEMPTS"]:
-	while estado_partida["intentos"] <= 6:
+	while estado_partida["intentos"] <= int(config["MAX_ATTEMPTS"]):
+	#while estado_partida["intentos"] <= 6:
 		print(f"Nivel {estado_partida["nivel"]} | Partida {estado_partida["partida"]} | Vidas {estado_partida["vidas"]} | Puntos {estado_partida["puntaje"]}")
 		palabra = input(f"Intento {estado_partida["intentos"]}/{config["MAX_ATTEMPTS"]}: ")
 		palabra = normalizar_palabra(palabra)
