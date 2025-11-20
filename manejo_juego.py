@@ -71,9 +71,7 @@ def menu(usuario: dict):
     estado_partida , palabras= inicializar_partida()
     config = importar_configuracion("/Users/guille/Documents/computacion/wordle/archivos/config.csv")
     choice = mostrar_menu() 
-    print(type(config["MAX_PARTIDAS"]))
-    while  estado_partida["vidas"] != 0 and (estado_partida["partida"] <= 3 and estado_partida["nivel"] <= 3):
-    #while  estado_partida["vidas"] != 0 and (estado_partida["partida"] <= config["MAX_PARTIDAS"] and estado_partida["nivel"] <= config["MAX_NIVELES"]):
+    while  estado_partida["vidas"] != 0 and (estado_partida["partida"] <= int(config["MAX_PARTIDAS"])) and estado_partida["nivel"] <= int(config["MAX_NIVELES"]):
         match choice:
             case "1":
                 resumen_nivel(estado_partida)
