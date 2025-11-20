@@ -249,10 +249,12 @@ def jugar_partida(estado_partida: dict) -> bool:
 			print(f"¡Felicidades! Adivinaste la palabra en {config["GREEN"]}{estado_partida["intentos"]}{config["RESET"]} intentos.\n")
 			estado_partida["ganaste"] = True
 			break
+
 		elif palabra_validada != estado_partida["secreto"] and palabra_validada != "AYUDA":
 			mostrar_feedback(palabra_validada, estado_partida["secreto"])
 			estado_partida["intentos"] += 1
 			estado_partida["errores"] +=1
+
 	return estado_partida["ganaste"]
 
 def configurar_partida(estado_partida: dict, palabras: list[str]):

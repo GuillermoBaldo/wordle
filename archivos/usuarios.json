@@ -76,9 +76,9 @@
             "nombre": "thigo",
             "contrase\u00f1a": "thiago",
             "estadisticas": {
-                "puntaje_total": 0,
+                "puntaje_total": 300,
                 "errores": 0,
-                "niveles_completados": 0
+                "niveles_completados": 1
             }
         }
     ]
