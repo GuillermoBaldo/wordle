@@ -38,6 +38,11 @@ Durante la partida, dispones de **3 comodines** de uso único, que puedes activa
     print(instrucciones)
 
 def mostrar_menu()->str:
+	"""Muestra el menú principal del juego y solicita una opción al usuario.
+
+    Returns:
+        str: Opción ingresada por el jugador, validada entre '1' y '3'.
+	"""
 	print("=== WORDLE ===")
 	print("1) Jugar (palabra aleatoria)")
 	print("2) Instrucciones")
@@ -49,9 +54,17 @@ def mostrar_menu()->str:
 		choice = mi_strip(choice)
 	return choice 
 
-def importar_configuracion(ruta):
-    estado_jugador = cargar_config(ruta)
-    return estado_jugador
+def importar_configuracion(ruta: str) -> dict:
+	"""Carga la configuración del juego desde un archivo externo.
+
+    Args:
+        ruta (str): Ruta del archivo de configuración.
+
+    Returns:
+        dict: Diccionario con los valores configurados.
+	"""
+	estado_jugador = cargar_config(ruta)
+	return estado_jugador
 
 def validar_adivinanza(palabra: str) -> str | None:
 	palabra = normalizar_palabra(palabra)
