@@ -67,6 +67,14 @@ def importar_configuracion(ruta: str) -> dict:
 	return estado_jugador
 
 def validar_adivinanza(palabra: str) -> str | None:
+	"""Valida que la palabra ingresada sea un string de 5 letras.
+
+    Args:
+        palabra (str): Palabra ingresada por el usuario.
+
+    Returns:
+        str | None: La palabra normalizada si es válida, o None si no cumple las condiciones.
+	"""
 	palabra = normalizar_palabra(palabra)
 	resultado = palabra
 	if len(palabra) != 5 or not es_string(palabra):
@@ -74,39 +82,50 @@ def validar_adivinanza(palabra: str) -> str | None:
 	return resultado
 
 def mostrar_feedback(adivinanza, secreto):
-    config = importar_configuracion("/Users/guille/Documents/computacion/wordle/archivos/config.csv")
+	"""Muestra el resultado de la adivinanza con colores según coincidencias.
 
-    # Colores que vienen del archivo config.csv
-    green = config["GREEN"]
-    yellow = config["YELLOW"]
-    gray = config["GRAY"]
-    reset = config["RESET"]
+    Args:
+        adivinanza (str): Palabra ingresada por el jugador.
+        secreto (str): Palabra secreta que debe adivinarse.
+	"""
+	config = importar_configuracion("/Users/guille/Documents/computacion/wordle/archivos/config.csv")
 
-    resultado = [""] * 5
-    secreto_lista = list(secreto)
+	green = config["GREEN"]
+	yellow = config["YELLOW"]
+	gray = config["GRAY"]
+	reset = config["RESET"]
 
-    # Primera pasada: letras correctas (verde)
-    for i in range(5):
-        if adivinanza[i] == secreto[i]:
-            resultado[i] = f"{green}{adivinanza[i]}{reset}"
-            secreto_lista[i] = None  # Consumir letra
+	resultado = [""] * 5
+	secreto_lista = list(secreto)
 
-    # Segunda pasada: letra existe pero mal ubicada (amarillo)
-    for i in range(5):
-        if resultado[i] != "":
-            continue  # ya está verde
-        if contiene(secreto_lista, adivinanza[i]):
-            resultado[i] = f"{yellow}{adivinanza[i]}{reset}"
-            idx = buscar_indice(secreto_lista, adivinanza[i])
-            secreto_lista[idx] = None
-        else:
-            resultado[i] = f"{gray}{adivinanza[i]}{reset}"
+	for i in range(5):
+		if adivinanza[i] == secreto[i]:
+			resultado[i] = f"{green}{adivinanza[i]}{reset}"
+			secreto_lista[i] = None
 
-    mostrar_lista_colores(resultado)
+	for i in range(5):
+		if resultado[i] != "":
+			continue
+		if contiene(secreto_lista, adivinanza[i]):
+			resultado[i] = f"{yellow}{adivinanza[i]}{reset}"
+			idx = buscar_indice(secreto_lista, adivinanza[i])
+			secreto_lista[idx] = None
+		else:
+			resultado[i] = f"{gray}{adivinanza[i]}{reset}"
+
+	mostrar_lista_colores(resultado)
 
 
 
-def jugar(estado_partida, palabras):
+def jugar(estado_partida: dict, palabras: list[str]) -> None:
+	"""Controla el flujo general del juego: configura, ejecuta la partida
+    y muestra la palabra si el jugador pierde.
+
+    Args:
+        estado_partida (dict): Estado actual de la partida.
+        palabras (list[str]): Lista de palabras disponibles.
+	"""
+
 	config = importar_configuracion("/Users/guille/Documents/computacion/wordle/archivos/config.csv")
 	configurar_partida(estado_partida, palabras,) 
 	jugar_partida(estado_partida)
@@ -114,12 +133,30 @@ def jugar(estado_partida, palabras):
 		print(f"Se acabaron los intentos. La palabra era: {config["RED"]}{estado_partida["secreto"]}{config["RESET"]}\n")
 	
 
-def letra_aleatoria(palabra):
-    indice = random.randrange(len(palabra))
-    letra = palabra[indice]
-    return letra, indice
+def letra_aleatoria(palabra: str) -> tuple[str, int]:
+	"""Devuelve una letra aleatoria de la palabra junto con su índice.
 
-def revelar_letra(secreto , desorden=False):
+    Args:
+        palabra (str): Palabra de origen.
+
+    Returns:
+        tuple[str, int]: La letra seleccionada y su posición.
+	"""
+	indice = random.randrange(len(palabra))
+	letra = palabra[indice]
+	return letra, indice
+
+def revelar_letra(secreto: str, desorden: bool = False) -> str:
+	"""Revela una letra del secreto, opcionalmente en una posición aleatoria.
+
+    Args:
+        secreto (str): Palabra secreta.
+        desorden (bool, optional): Si True, muestra la letra en otra posición. Por efecto, False.
+
+    Returns:
+        str: La letra revelada.
+	"""
+
 	config = importar_configuracion("/Users/guille/Documents/computacion/wordle/archivos/config.csv")
 	letra , posicion = letra_aleatoria(secreto)
 	if not desorden:
@@ -141,7 +178,17 @@ def revelar_letra(secreto , desorden=False):
 		print()
 	return letra
 
-def sistema_comodines(palabra_validada, estado_partida):
+def sistema_comodines(palabra_validada: str, estado_partida: dict) -> list[bool]:
+	"""Gestiona el uso de comodines del jugador (revelar letra, revelar tema, letra desordenada).
+
+    Args:
+        palabra_validada (str): Palabra ingresada por el jugador.
+        estado_partida (dict): Estado actual de la partida.
+
+    Returns:
+        list[bool]: Lista de banderas indicando qué comodines quedan disponibles.
+	"""
+
 	config = importar_configuracion("/Users/guille/Documents/computacion/wordle/archivos/config.csv")
 	if palabra_validada == "AYUDA":
 		opcion = input("Por cada comodin usado se perderan 20 puntos.\n🔍 1.Revelar letra. \n🔗 2.Revelar Temática. \n🧠 3.Revelar letra desordenada. \nIngrese una opcion: ")
@@ -172,7 +219,16 @@ def sistema_comodines(palabra_validada, estado_partida):
 					print("opcion invalida.")
 		return bandera_comodines
 
-def jugar_partida(estado_partida):
+def jugar_partida(estado_partida: dict) -> bool:
+	"""Ejecuta una partida completa: solicita palabras, valida, muestra feedback
+    y determina si el jugador ganó.
+
+    Args:
+        estado_partida (dict): Estado actual de la partida.
+
+    Returns:
+        bool: True si el jugador ganó, False si perdió.
+	"""
 	config = importar_configuracion("/Users/guille/Documents/computacion/wordle/archivos/config.csv")
 	while estado_partida["intentos"] <= int(config["MAX_ATTEMPTS"]):
 	#while estado_partida["intentos"] <= 6:
@@ -199,7 +255,14 @@ def jugar_partida(estado_partida):
 			estado_partida["errores"] +=1
 	return estado_partida["ganaste"]
 
-def configurar_partida(estado_partida,palabras):
+def configurar_partida(estado_partida: dict, palabras: list[str]):
+	"""Inicializa una nueva partida seleccionando palabra, tema y 
+    reiniciando contadores e indicadores.
+
+    Args:
+        estado_partida (dict): Estado del juego.
+        palabras (list[str]): Lista de palabras para elegir.
+	"""
 
 	palabras_elegidas = elegir_palabra_sin_repetir(palabras)
 	estado_partida["tema"] = palabras_elegidas[1]

@@ -1,13 +1,23 @@
 from manejoJSON import *
 from manejo_juego import *
-def main():
+def main() -> None:
+    """Función principal del programa. Maneja el flujo inicial:
+    realiza el login del usuario, inicializa sus estadísticas
+    y muestra el menú principal.
+    """
     usuario = login()
     if usuario != None:
-        inicializar_estadisticas(usuario["nombre"])  # Aseguramos que las estadísticas estén inicializadas
+        inicializar_estadisticas(usuario["nombre"])
         menu(usuario)  
 
 
-def login():
+def login() -> dict | None:
+    """Gestiona el registro o inicio de sesión del usuario.
+    Si es su primera vez, lo registra. Si ya existe, se valida su usuario y contraseña.
+
+    Returns:
+        dict | None: Diccionario con los datos del usuario si el login es exitoso, o None si las credenciales no corresponden.
+    """
     opcion = input("Primera vez jugando?(s/n): ")
     opcion = normalizar_palabra(opcion)
     usuario = None

@@ -1,13 +1,14 @@
-# ============================================
-#  FUNCIONES BASE PARA MANEJO DE ARCHIVOS CSV
-#  (SIN USAR EL MÓDULO csv Y SIN LIST COMPS)
-# ============================================
+import random
 
-def leer_csv(ruta):
-    """
-    Lee un archivo CSV línea por línea.
-    Cada línea se separa por comas y se guarda en una lista.
-    Devuelve: lista de listas.
+def leer_csv(ruta: str) -> list:
+    """Lee un archivo CSV línea por línea.
+    Cada línea se separa por comas y se almacena como una lista.
+
+    Args:
+        ruta (str): Ruta del archivo CSV a leer.
+
+    Returns:
+        list: Lista donde cada elemento es una fila del CSV representada como lista de strings.
     """
     datos = []
     with open(ruta, "r", encoding="utf-8") as archivo:
@@ -18,10 +19,15 @@ def leer_csv(ruta):
     return datos
 
 
-def escribir_csv(ruta, filas):
-    """
-    Sobrescribe completamente un CSV.
-    'filas' debe ser una lista de listas.
+def escribir_csv(ruta: str, filas: list) -> None:
+    """Sobrescribe por completo un archivo CSV.
+
+    Args:
+        ruta (str): Ruta del archivo CSV a escribir.
+        filas (list): Contenido que se escribirá, cada fila como lista de strings.
+
+    Returns:
+        None
     """
     with open(ruta, "w", encoding="utf-8") as archivo:
         for fila in filas:
@@ -29,25 +35,29 @@ def escribir_csv(ruta, filas):
             archivo.write(linea + "\n")
 
 
-def agregar_fila(ruta, fila):
-    """
-    Agrega una sola fila al final del archivo CSV.
-    'fila' debe ser una lista con strings.
+def agregar_fila(ruta: str, fila: list) -> None:
+    """Agrega una fila al final del archivo CSV.
+
+    Args:
+        ruta (str): Ruta del archivo CSV.
+        fila (list): Fila a agregar, en forma de lista de strings.
+
+    Returns:
+        None
     """
     with open(ruta, "a", encoding="utf-8") as archivo:
         archivo.write(",".join(fila) + "\n")
 
 
-# ============================
-#  CARGAR CONFIGURACIÓN
-# ============================
+def cargar_config(ruta: str) -> dict[str, str]:
+    """Carga la configuración desde un CSV y la devuelve como diccionario.
+    Ignora la primera fila porque es el encabezado.
 
-def cargar_config(ruta):
-    """
-    Convierte config.csv en un diccionario:
-    clave → valor.
+    Args:
+        ruta (str): Ruta del archivo CSV.
 
-    Saltea la primera fila porque es el encabezado.
+    Returns:
+        dict[str, str]: Diccionario con claves y valores de configuración.
     """
     filas = leer_csv(ruta)
     config = {}
@@ -62,14 +72,20 @@ def cargar_config(ruta):
     return config
 
 
-def editar_config(ruta, clave, nuevo_valor):
-    """
-    Modifica un valor en config.csv.
-    Busca la clave y reemplaza el valor.
+def editar_config(ruta: str, clave: str, nuevo_valor: str) -> None:
+    """Edita un valor dentro del archivo config.csv.
+
+    Args:
+        ruta (str): Ruta del archivo CSV.
+        clave (str): Clave a modificar.
+        nuevo_valor (str): Valor que reemplazará al anterior.
+
+    Returns:
+        None
     """
     filas = leer_csv(ruta)
 
-    i = 1  # empieza después del encabezado
+    i = 1
     while i < len(filas):
         if filas[i][0] == clave:
             filas[i][1] = nuevo_valor
@@ -79,80 +95,20 @@ def editar_config(ruta, clave, nuevo_valor):
     escribir_csv(ruta, filas)
 
 
-# ============================
-#  ESTADO DEL JUGADOR
-# ============================
+def cargar_palabrasv2(ruta: str) -> dict:
+    """Carga un CSV de palabras categorizadas y construye un diccionario donde
+    cada clave es una categoría y su valor es una lista de palabras.
 
-def cargar_estado_jugador(ruta):
-    """
-    Carga un estado de jugador tipo:
-    {
-        "partida": "1",
-        "nivel": "1",
-        "vidas": "3",
-        ...
-    }
-    """
-    filas = leer_csv(ruta)
+    Args:
+        ruta (str): Ruta del archivo CSV.
 
-    encabezados = filas[0]
-    valores = filas[1]
-
-    estado = {}
-    i = 0
-    while i < len(encabezados):
-        clave = encabezados[i]
-        valor = valores[i]
-        estado[clave] = valor
-        i += 1
-
-    return estado
-
-
-def guardar_estado_jugador(ruta, estado):
-    """
-    Guarda el estado del jugador en el CSV.
-    Respeta el orden de los encabezados.
-    """
-    filas = leer_csv(ruta)
-    encabezados = filas[0]
-
-    nueva_fila = []
-
-    i = 0
-    while i < len(encabezados):
-        clave = encabezados[i]
-        nueva_fila.append(str(estado[clave]))
-        i += 1
-
-    filas[1] = nueva_fila  # reemplazar fila de datos
-
-    escribir_csv(ruta, filas)
-
-
-# ============================
-#  MANEJO DE PALABRAS
-# ============================
-def cargar_palabrasv2(ruta):
-    """
-    Carga un archivo CSV de palabras con forma:
-    animales,paises,tecnologia,...
-    tigre,chile,robot,...
-    cebra,china,cable,...
-    ...
-
-    Y devuelve un diccionario:
-    {
-        "animales": [...],
-        "paises": [...],
-        ...
-    }
+    Returns:
+        dict: Diccionario categoría a lista de palabras.
     """
     filas = leer_csv(ruta)
 
     encabezados = filas[0]
 
-    # Crear diccionario vacío con cada categoría
     palabras = {}
     i = 0
     while i < len(encabezados):
@@ -160,7 +116,6 @@ def cargar_palabrasv2(ruta):
         palabras[categoria] = []
         i += 1
 
-    # Recorrer las filas y añadir cada palabra a su categoría
     j = 1
     while j < len(filas):
         fila = filas[j]
@@ -175,19 +130,20 @@ def cargar_palabrasv2(ruta):
     return palabras
 
 
-def cargar_palabras(ruta):
-    """
-    Convierte palabras.csv en:
-    {
-        "animales": ["gato","perro"],
-        "colores": ["rojo","azul"],
-        ...
-    }
+def cargar_palabras(ruta: str) -> dict:
+    """Carga un archivo palabras.csv con formato categoría-palabra
+    y devuelve un diccionario agrupado por categorías.
+
+    Args:
+        ruta (str): Ruta del archivo CSV.
+
+    Returns:
+        dict: Diccionario con categorías y sus palabras asociadas.
     """
     filas = leer_csv(ruta)
     palabras = {}
 
-    i = 1  # saltar encabezado
+    i = 1
     while i < len(filas):
         categoria = filas[i][0]
         palabra = filas[i][1]
@@ -201,42 +157,31 @@ def cargar_palabras(ruta):
     return palabras
 
 
-# ============================
-#  ELEGIR PALABRA SIN REPETIR
-# ============================
+def elegir_palabra_sin_repetir(palabras: dict) -> tuple:
+    """Elige una palabra aleatoria de las categorías disponibles.
+    Quita la palabra del diccionario para evitar repetirla.
 
-import random
+    Args:
+        palabras (dict): Diccionario categoría a palabras disponibles.
 
-def elegir_palabra_sin_repetir(palabras):
+    Returns:
+        tuple:(palabra, categoría) o (None, None) si no hay palabras.
     """
-    Devuelve (palabra, categoria) al azar.
-    Quita la palabra elegida del diccionario.
-    """
-
     palabra = None
     categoria_elegida = None
 
-    # Construir lista de categorías que tengan palabras
     categorias_validas = []
     for categoria in palabras:
         if len(palabras[categoria]) > 0:
             categorias_validas.append(categoria)
 
-    # Si NO hay categorías válidas → devuelve (None, None)
     if len(categorias_validas) == 0:
         resultado = (palabra, categoria_elegida)
 
     else:
-        # Elegimos una categoría al azar
         categoria_elegida = random.choice(categorias_validas)
-
-        # Elegimos una palabra al azar dentro de esa categoría
         palabra = random.choice(palabras[categoria_elegida])
-
-        # La removemos para no repetirla nunca más
         palabras[categoria_elegida].remove(palabra)
-
         resultado = (palabra, categoria_elegida)
 
-    # ÚNICO RETURN DE TODA LA FUNCIÓN
     return resultado

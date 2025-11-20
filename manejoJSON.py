@@ -1,32 +1,50 @@
 import os
 import json
-import re
 
-
-# =========================
-# ARCHIVO: usuarios.json
-# =========================/Users/guille/Documents/computacion/UTN/wordel/archivos.py
 RUTA_USUARIOS = "/Users/guille/Documents/computacion/wordle/archivos/usuarios.json"
 
-def inicializar_json():
-    """Crea el archivo JSON si no existe."""
+def inicializar_json() -> None:
+    """Crea el archivo JSON de usuarios si no existe.
+
+    Returns:
+        None
+    """
     if not os.path.exists(RUTA_USUARIOS):
         with open(RUTA_USUARIOS, "w") as archivo:
             json.dump({"usuarios": []}, archivo, indent=4)
 
-def cargar_usuarios():
-    """Lee los datos del archivo usuarios.json."""
+def cargar_usuarios() -> dict:
+    """Lee los datos del archivo usuarios.json.
+
+    Returns:
+        dict: Contenido completo del JSON.
+    """
     inicializar_json()
     with open(RUTA_USUARIOS, "r") as archivo:
         return json.load(archivo)
 
-def guardar_usuarios(data):
-    """Guarda la información actualizada en usuarios.json."""
+def guardar_usuarios(data: dict) -> None:
+    """Guarda la información actualizada en usuarios.json.
+
+    Args:
+        data (dict): Diccionario con todos los datos que se escribirán.
+
+    Returns:
+        None
+    """
     with open(RUTA_USUARIOS, "w") as archivo:
         json.dump(data, archivo, indent=4)
 
-def registrar_usuario(nombre, contraseña):
-    """Registra un nuevo usuario si no existe."""
+def registrar_usuario(nombre: str, contraseña: str) -> None:
+    """Registra un nuevo usuario si no existe previamente.
+
+    Args:
+        nombre (str): Nombre de usuario.
+        contraseña (str): Contraseña elegida por el usuario.
+
+    Returns:
+        None
+    """
     data = cargar_usuarios()
     existe_usuario = True
     for usuario in data["usuarios"]:
@@ -52,8 +70,12 @@ def registrar_usuario(nombre, contraseña):
 def login_usuario(nombre: str, contraseña: str) -> dict | None:
     """Valida usuario y contraseña.
 
+    Args:
+        nombre (str): Nombre del usuario.
+        contraseña (str): Contraseña ingresada.
+
     Returns:
-        _str | None_: dict del usuario si es correcto, None si no.
+        dict | None: El diccionario del usuario si es válido, o None si no coincide.
     """
     data = cargar_usuarios()
     resultado = None
@@ -66,8 +88,18 @@ def login_usuario(nombre: str, contraseña: str) -> dict | None:
         print("❌ Usuario o contraseña incorrectos.")
     return resultado
 
-def actualizar_estadisticas(nombre, puntaje, errores, nivel):
-    """Actualiza las estadísticas de un usuario."""
+def actualizar_estadisticas(nombre: str, puntaje: int, errores: int, nivel: int) -> None:
+    """Actualiza las estadísticas acumuladas del usuario.
+
+    Args:
+        nombre (str): Nombre del usuario a modificar.
+        puntaje (int): Puntos a sumar.
+        errores (int): Errores a acumular.
+        nivel (int): Último nivel alcanzado.
+
+    Returns:
+        None
+    """
     data = cargar_usuarios()
     for usuario in data["usuarios"]:
         if usuario["nombre"] == nombre:
@@ -76,8 +108,15 @@ def actualizar_estadisticas(nombre, puntaje, errores, nivel):
             usuario["estadisticas"]["niveles_completados"] = nivel
     guardar_usuarios(data)
     
-def inicializar_estadisticas(nombre):
-    """Actualiza las estadísticas de un usuario."""
+def inicializar_estadisticas(nombre: str) -> None:
+    """Reinicia las estadísticas del usuario a cero.
+
+    Args:
+        nombre (str): Usuario cuyas estadísticas se reiniciarán.
+
+    Returns:
+        None
+    """
     data = cargar_usuarios()
     for usuario in data["usuarios"]:
         if usuario["nombre"] == nombre:
