@@ -169,15 +169,15 @@ def elegir_palabra_sin_repetir(palabras: dict) -> tuple:
     """
     palabra = None
     categoria_elegida = None
-
     categorias_validas = []
+    
     for categoria in palabras:
         if len(palabras[categoria]) > 0:
             categorias_validas.append(categoria)
 
     if len(categorias_validas) == 0:
         resultado = (palabra, categoria_elegida)
-
+        
     else:
         categoria_elegida = random.choice(categorias_validas)
         palabra = random.choice(palabras[categoria_elegida])

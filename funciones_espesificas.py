@@ -150,7 +150,6 @@ def es_int(cadena: str) -> bool:
             resultado= False
     return resultado
 
-
 def validar_letra(letra:str )-> str:
     """Valida que el valor ingresado sea una sola letra del alfabeto.
 
@@ -198,16 +197,6 @@ def contiene(lista, elemento):
         if lista[i] == elemento:
             encontrado = True
     return encontrado
-
-def mostrar_lista_colores(lista):
-    """Imprime en pantalla todos los elementos de una lista, separados por espacios.
-
-    Args:
-        lista (list): Lista a mostrar.
-    """
-    for i in range(len(lista)):
-        print(lista[i], end=" ")
-    print()  # salto de línea
 
 def normalizar_palabra(palabra:str)->str:
     """Elimina espacios al inicio y final de una palabra y la convierte a mayúsculas.

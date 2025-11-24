@@ -1,5 +1,6 @@
 from manejoJSON import *
-from manejo_juego import *
+from datos_juegos import *
+from login import * 
 def main() -> None:
     """Función principal del programa. Maneja el flujo inicial:
     realiza el login del usuario, inicializa sus estadísticas
@@ -8,40 +9,9 @@ def main() -> None:
     usuario = login()
     if usuario != None:
         inicializar_estadisticas(usuario["nombre"])
-        menu(usuario)  
-
-
-def login() -> dict | None:
-    """Gestiona el registro o inicio de sesión del usuario.
-    Si es su primera vez, lo registra. Si ya existe, se valida su usuario y contraseña.
-
-    Returns:
-        dict | None: Diccionario con los datos del usuario si el login es exitoso, o None si las credenciales no corresponden.
-    """
-    opcion = input("Primera vez jugando?(s/n): ")
-    opcion = normalizar_palabra(opcion)
-    usuario = None
-    
-    if opcion == "S":
-        print("=== REGISTRO DE USUARIO ===")
-        print(f"Ingresa tus datos para registrarte")
-        nombre = input("Elige un nombre de usuario: ")
-        contraseña = input("Elige una contraseña: ")
-        reingreso = input("Reingresa la contraseña: ")
-        while contraseña != reingreso:
-            print("Las contraseñas no coinciden. Intenta nuevamente.")
-            contraseña = input("Elige una contraseña: ")
-            reingreso = input("Reingresa la contraseña: ")
-        registrar_usuario(nombre, contraseña)
-        print("Registro exitoso. Ahora puedes iniciar sesión.")
-        usuario = login_usuario(nombre, contraseña)
-        
-    else:
-        print("=== INICIO DE SESIÓN ===")
-        nombre = input("Usuario: ")
-        contraseña = input("Contraseña: ")
-        usuario = login_usuario(nombre, contraseña)
-    return usuario
+        menu(usuario) 
+    else: 
+        print("No se pudo iniciar sesión. Saliendo del programa.") 
 
 if __name__ == "__main__":
         main()

@@ -4,9 +4,9 @@
             "nombre": "guille",
             "contrase\u00f1a": "guille",
             "estadisticas": {
-                "puntaje_total": 2700,
+                "puntaje_total": 0,
                 "errores": 0,
-                "niveles_completados": 4
+                "niveles_completados": 0
             }
         },
         {
@@ -79,6 +79,33 @@
                 "puntaje_total": 300,
                 "errores": 0,
                 "niveles_completados": 1
+            }
+        },
+        {
+            "nombre": "xs",
+            "contrase\u00f1a": "xs",
+            "estadisticas": {
+                "puntaje_total": 0,
+                "errores": 0,
+                "niveles_completados": 0
+            }
+        },
+        {
+            "nombre": "german",
+            "contrase\u00f1a": "german",
+            "estadisticas": {
+                "puntaje_total": 2590,
+                "errores": 1,
+                "niveles_completados": 4
+            }
+        },
+        {
+            "nombre": "catrigod",
+            "contrase\u00f1a": "catriel",
+            "estadisticas": {
+                "puntaje_total": 0,
+                "errores": 0,
+                "niveles_completados": 0
             }
         }
     ]

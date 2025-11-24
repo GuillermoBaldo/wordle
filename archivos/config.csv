@@ -1,7 +1,7 @@
 key,value
 GREEN,[92m
 YELLOW,[93m
-GRAY,[90m
+GREY,[90m
 RED,[91m
 RESET,[0m
 MAX_ATTEMPTS,6
