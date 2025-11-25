@@ -18,7 +18,6 @@ def rebanar(cadena: str, inicio: int, finalizacion: int, reverse: bool = False  
     if not reverse :
         for caracter in range(inicio, finalizacion):
             cadena_auxiliar += cadena[caracter]
-            # print(cadena[caracter], end="")
     else:
         for caracter in range(finalizacion-1, inicio-1, -1):
             cadena_auxiliar += cadena[caracter]
@@ -53,7 +52,7 @@ def Mi_Upper(cadena: str) -> str:
     for letra in range(len(cadena)):
         caracter = cadena[letra]
         letra_mayuscula = caracter
-        if caracter >= "a" and caracter <= "z":  # si el caracter está entre 'a' y 'z'
+        if caracter >= "a" and caracter <= "z":
             letra_mayuscula = invertir_letra(caracter)
         cadena_mayuscula += letra_mayuscula
     return cadena_mayuscula

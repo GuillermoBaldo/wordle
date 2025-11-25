@@ -10,13 +10,15 @@ def sistema_comodines(palabra_validada: str, estado_partida: dict, config) -> li
     Returns:
         list[bool]: Estado actualizado de las banderas de comodines.
     """
+    resultado = estado_partida["bandera_comodines"]
+
     if palabra_validada == "AYUDA":
         opcion = pedir_opcion_comodin()
         bandera_comodines = estado_partida["bandera_comodines"]
         procesar_opcion_comodin(opcion, bandera_comodines, estado_partida, config)
-        return bandera_comodines
+        resultado = bandera_comodines
 
-    return estado_partida["bandera_comodines"]
+    return resultado
 
 def pedir_opcion_comodin() -> str:
     """Muestra el menú de opciones de comodines y devuelve la elección del jugador.
@@ -28,7 +30,12 @@ def pedir_opcion_comodin() -> str:
     print("🔍 1.Revelar letra.")
     print("🔗 2.Revelar Temática.")
     print("🧠 3.Revelar letra desordenada.")
-    return input("Ingrese una opción: ")
+
+    opcion = input("Ingrese una opción: ")
+    while opcion < 1 or opcion > 3:
+        opcion = input("Error. Ingrese una opción del 1 al 3: ")
+        
+    return opcion
 
 def procesar_opcion_comodin(opcion: str, bandera_comodines: list[bool], estado_partida: dict, config):
     """Procesa el comodín seleccionado por el jugador.
