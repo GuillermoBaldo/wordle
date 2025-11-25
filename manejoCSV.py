@@ -19,36 +19,6 @@ def leer_csv(ruta: str) -> list:
     return datos
 
 
-def escribir_csv(ruta: str, filas: list) -> None:
-    """Sobrescribe por completo un archivo CSV.
-
-    Args:
-        ruta (str): Ruta del archivo CSV a escribir.
-        filas (list): Contenido que se escribirá, cada fila como lista de strings.
-
-    Returns:
-        None
-    """
-    with open(ruta, "w", encoding="utf-8") as archivo:
-        for fila in filas:
-            linea = ",".join(fila)
-            archivo.write(linea + "\n")
-
-
-def agregar_fila(ruta: str, fila: list) -> None:
-    """Agrega una fila al final del archivo CSV.
-
-    Args:
-        ruta (str): Ruta del archivo CSV.
-        fila (list): Fila a agregar, en forma de lista de strings.
-
-    Returns:
-        None
-    """
-    with open(ruta, "a", encoding="utf-8") as archivo:
-        archivo.write(",".join(fila) + "\n")
-
-
 def cargar_config(ruta: str) -> dict[str, str]:
     """Carga la configuración desde un CSV y la devuelve como diccionario.
     Ignora la primera fila porque es el encabezado.
@@ -70,29 +40,6 @@ def cargar_config(ruta: str) -> dict[str, str]:
         i += 1
 
     return config
-
-
-def editar_config(ruta: str, clave: str, nuevo_valor: str) -> None:
-    """Edita un valor dentro del archivo config.csv.
-
-    Args:
-        ruta (str): Ruta del archivo CSV.
-        clave (str): Clave a modificar.
-        nuevo_valor (str): Valor que reemplazará al anterior.
-
-    Returns:
-        None
-    """
-    filas = leer_csv(ruta)
-
-    i = 1
-    while i < len(filas):
-        if filas[i][0] == clave:
-            filas[i][1] = nuevo_valor
-            break
-        i += 1
-
-    escribir_csv(ruta, filas)
 
 
 def cargar_palabrasv2(ruta: str) -> dict:
@@ -126,33 +73,6 @@ def cargar_palabrasv2(ruta: str) -> dict:
             palabras[categoria].append(palabra)
             i += 1
         j += 1
-
-    return palabras
-
-
-def cargar_palabras(ruta: str) -> dict:
-    """Carga un archivo palabras.csv con formato categoría-palabra
-    y devuelve un diccionario agrupado por categorías.
-
-    Args:
-        ruta (str): Ruta del archivo CSV.
-
-    Returns:
-        dict: Diccionario con categorías y sus palabras asociadas.
-    """
-    filas = leer_csv(ruta)
-    palabras = {}
-
-    i = 1
-    while i < len(filas):
-        categoria = filas[i][0]
-        palabra = filas[i][1]
-
-        if categoria not in palabras:
-            palabras[categoria] = []
-
-        palabras[categoria].append(palabra)
-        i += 1
 
     return palabras
 
