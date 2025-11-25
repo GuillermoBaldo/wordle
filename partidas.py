@@ -97,7 +97,7 @@ def validar_palabra(palabra_validada: str, estado_partida: dict, config: dict) -
     if palabra_validada == estado_partida["secreto"]:
         print(f'¡Felicidades! Adivinaste la palabra en {config["GREEN"]}{estado_partida["intentos"]}{config["RESET"]} intentos.\n')
         estado_partida["ganaste"] = True
-    
+        
     elif palabra_validada != estado_partida["secreto"] and palabra_validada != "AYUDA":
         estado_partida["intentos"] += 1
         estado_partida["errores"] += 1
