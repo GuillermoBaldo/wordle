@@ -1,7 +1,15 @@
 import random
 def sistema_comodines(palabra_validada: str, estado_partida: dict, config) -> list[bool]:
-    """Gestiona el uso de comodines del jugador."""
+    """Gestiona el uso de comodines según la palabra ingresada por el jugador.
 
+    Args:
+        palabra_validada (str): Entrada del jugador.
+        estado_partida (dict): Información actual de la partida.
+        config (_type_): Diccionario con códigos de colores.
+
+    Returns:
+        list[bool]: Estado actualizado de las banderas de comodines.
+    """
     if palabra_validada == "AYUDA":
         opcion = pedir_opcion_comodin()
         bandera_comodines = estado_partida["bandera_comodines"]
@@ -11,6 +19,11 @@ def sistema_comodines(palabra_validada: str, estado_partida: dict, config) -> li
     return estado_partida["bandera_comodines"]
 
 def pedir_opcion_comodin() -> str:
+    """Muestra el menú de opciones de comodines y devuelve la elección del jugador.
+
+    Returns:
+        str: Opción seleccionada por el jugador.
+    """
     print("Por cada comodin usado se perderan 20 puntos.")
     print("🔍 1.Revelar letra.")
     print("🔗 2.Revelar Temática.")
@@ -18,6 +31,14 @@ def pedir_opcion_comodin() -> str:
     return input("Ingrese una opción: ")
 
 def procesar_opcion_comodin(opcion: str, bandera_comodines: list[bool], estado_partida: dict, config):
+    """Procesa el comodín seleccionado por el jugador.
+
+    Args:
+        opcion (str): Comodín elegido.
+        bandera_comodines (list[bool]): Control de comodines disponibles.
+        estado_partida (dict): Datos de la partida.
+        config (_type_): Colores de impresión.
+    """
     match opcion:
         case "1":
             usar_comodin_revelar_letra(bandera_comodines, estado_partida, config)
@@ -28,7 +49,14 @@ def procesar_opcion_comodin(opcion: str, bandera_comodines: list[bool], estado_p
         case _:
             print("Opción inválida.")
 
-def usar_comodin_revelar_letra(banderas, estado_partida, config):
+def usar_comodin_revelar_letra(banderas: list[bool], estado_partida: dict, config: dict) -> None:
+    """Revela una letra de la palabra secreta si el comodín está disponible.
+
+    Args:
+        banderas (list[bool]): Comodines disponibles.
+        estado_partida (dict): Información de la partida.
+        config (dict): Código de colores.
+    """
     if banderas[0]:
         revelar_letra(estado_partida["secreto"], config)
         estado_partida["comodines_usados"] += 1
@@ -36,7 +64,14 @@ def usar_comodin_revelar_letra(banderas, estado_partida, config):
     else:
         print("Comodín ya usado")
 
-def usar_comodin_tematica(banderas, estado_partida, config):
+def usar_comodin_tematica(banderas: list[bool], estado_partida: dict, config: dict) -> None:
+    """Revela la temática de la palabra secreta.
+
+    Args:
+        banderas (list[bool]): Control de comodines.
+        estado_partida (dict): Datos actuales de la partida.
+        config (dict): Colores para mostrar la temática.
+    """
     if banderas[1]:
         print(f"{config['GREEN']}{estado_partida['tema']}{config['RESET']}")
         estado_partida["comodines_usados"] += 1
@@ -44,7 +79,14 @@ def usar_comodin_tematica(banderas, estado_partida, config):
     else:
         print("Comodín ya usado")
 
-def usar_comodin_letra_desordenada(banderas, estado_partida, config):
+def usar_comodin_letra_desordenada(banderas: list[bool], estado_partida: dict, config: dict) -> None:
+    """Muestra una letra aleatoria de la palabra secreta, desordenada.
+
+    Args:
+        banderas (list[bool]): Disponibilidad del comodín.
+        estado_partida (dict): Información de la partida.
+        config (dict): Colores para mostrar la letra.
+    """
     if banderas[2]:
         revelar_letra(estado_partida["secreto"], config, True)
         estado_partida["comodines_usados"] += 1

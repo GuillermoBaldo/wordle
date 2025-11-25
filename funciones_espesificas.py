@@ -32,8 +32,8 @@ def invertir_letra(letra:str, es_minucula: bool=True) -> str:
         es_minucula (bool, optional): Si es True, convierte una letra minúscula a mayúscula. Si es False, convierte una mayúscula a minúscula. Por defecto es True.
 
     Returns:
+        str: La letra convertida
     """
-
     if es_minucula:
         resultado = chr(ord(letra) - 32)
     else:
@@ -159,7 +159,6 @@ def validar_letra(letra:str )-> str:
     Returns:
         tuple[bool, str]: Una tupla con un booleano indicando si es válido y la letra en minúscula.
     """
-    # valida que el ingreso sea una letra
     resultado = False
     if len(letra) == 1 and  es_string(letra):
         letra = Mi_Lower(letra)        

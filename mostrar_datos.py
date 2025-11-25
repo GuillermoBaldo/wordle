@@ -75,11 +75,18 @@ def mostrar_lista_colores(lista):
     """
     for i in range(len(lista)):
         print(lista[i], end=" ")
-    print()  # salto de línea
+    print()
 
 
-def mostrar_feedback(adivinanza, secreto, config):
-	estado = {
+def mostrar_feedback(adivinanza: str, secreto: str, config: dict) -> None:
+    """Genera y muestra el feedback visual de colores del intento del jugador.
+
+    Args:
+        adivinanza (str): Palabra ingresada por el jugador.
+        secreto (str): Palabra secreta a divinar.
+        config (dict): Diccionario con los códigos de colores.
+    """
+    estado = {
 		"adivinanza": adivinanza,
 		"secreto": secreto,
 		"config": config,
@@ -87,11 +94,16 @@ def mostrar_feedback(adivinanza, secreto, config):
 		"secreto_lista": list(secreto)
 	}
 
-	marcar_coincidencias_exactas(estado)
-	marcar_coincidencias_parciales(estado)
-	mostrar_lista_colores( estado["resultado"])
+    marcar_coincidencias_exactas(estado)
+    marcar_coincidencias_parciales(estado)
+    mostrar_lista_colores( estado["resultado"])
 
-def marcar_coincidencias_exactas(estado):
+def marcar_coincidencias_exactas(estado: dict) -> None:
+    """Marca las letras correctas en la posición correcta en verde.
+
+    Args:
+        estado (dict): Diccionario con la información del intento.
+    """
     for i in range(5):
         if estado["adivinanza"][i] == estado["secreto"][i]:
             letra = estado["adivinanza"][i]
@@ -100,9 +112,13 @@ def marcar_coincidencias_exactas(estado):
             )
             estado["secreto_lista"][i] = None
 
-def marcar_coincidencias_parciales(estado):
+def marcar_coincidencias_parciales(estado: dict) -> None:
+    """Marca letras correctas en posiciones incorrectas en amarillo y letras incorrectas en gris.
+
+    Args:
+        estado (dict): Diccionario con datos del intento y progreso.
+    """
     for i in range(5):
-        # ya fue marcada como verde
         if estado["resultado"][i] != "":
             continue
 

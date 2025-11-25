@@ -63,12 +63,34 @@ def jugar_partida(estado_partida: dict, config) -> bool:
     return estado_partida["ganaste"]
 
 def intentos_partida(estado_partida: dict, config) -> str:
+    """Solicita al jugador que ingrese una palabra para el intento actual.
+
+    Args:
+        estado_partida (dict): Contiene información de la partida (nivel, intentos, vidas, puntaje y la palabra secreta).
+        config (_type_): Configuración general del juego
+
+    Returns:
+        str: La palabra ingresada por el jugador ya normalizada.
+    """
     print(f'Nivel {estado_partida["nivel"]} | Partida {estado_partida["partida"]} | Vidas {estado_partida["vidas"]} | Puntos {estado_partida["puntaje"]}')
     palabra = input(f'Intento {estado_partida["intentos"]}/{config["MAX_ATTEMPTS"]}: ')
     palabra = normalizar_palabra(palabra)
     return palabra
 
-def validar_palabra(palabra_validada, estado_partida, config):
+def validar_palabra(palabra_validada: str, estado_partida: dict, config: dict) -> None:
+    """Valida la palabra ingresada por el jugador y actualiza el estado de la partida.
+        - Muestra freedback si la palabra no es AYUDA.
+        - Marca la partida como ganada si coincide con la palabra secreta.
+        - Si no coincide (y no es AYUDA), incrementa intentos y errores.
+
+    Args:
+        palabra_validada (str): Palabra ya normalizada ingresada por el jugador.
+        estado_partida (dict): Contiene datos como la palabra secreta, intentos, errores, vidas y puntaje.
+        config (dict): Configuración del juego (colores y parámetros globales).
+    
+    Returns:
+        None
+    """
     if palabra_validada != "AYUDA":
         mostrar_feedback(palabra_validada, estado_partida["secreto"], config)
         
