@@ -48,8 +48,8 @@ def jugar_partida(estado_partida: dict, config) -> bool:
         bool: True si el jugador ganó, False si perdió.
     """
     while estado_partida["intentos"] <= int(config["MAX_ATTEMPTS"]):
-        palabra = intentos_partida(estado_partida, config)
-        palabra_validada = validar_adivinanza(palabra)
+        palabra_ingresada = intentos_partida(estado_partida, config)
+        palabra_validada = validar_adivinanza(palabra_ingresada)
         if not palabra_validada:
             print("Entrada inválida. Introduce exactamente 5 letras.")
             continue

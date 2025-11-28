@@ -30,11 +30,7 @@ def pedir_opcion_comodin() -> str:
     print("🔍 1.Revelar letra.")
     print("🔗 2.Revelar Temática.")
     print("🧠 3.Revelar letra desordenada.")
-
-    opcion = input("Ingrese una opción: ")
-    while opcion < 1 or opcion > 3:
-        opcion = input("Error. Ingrese una opción del 1 al 3: ")
-        
+    opcion = input("Elige un comodín (1-3): ")
     return opcion
 
 def procesar_opcion_comodin(opcion: str, bandera_comodines: list[bool], estado_partida: dict, config):
