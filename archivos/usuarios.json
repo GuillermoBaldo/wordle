@@ -4,9 +4,9 @@
             "nombre": "guille",
             "contrase\u00f1a": "guille",
             "estadisticas": {
-                "puntaje_total": 300,
-                "errores": 18,
-                "niveles_completados": 1,
+                "puntaje_total": 0,
+                "errores": 0,
+                "niveles_completados": 0,
                 "partidas_completadas": 2,
                 "tiempo_juegado": 54.3368661403656
             }
