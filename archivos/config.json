@@ -1,0 +1,28 @@
+{
+"ANCHO": 500,
+"ALTO": 600,
+"DALTONISMO": false,
+"TITULO_VENTANA": "Wordle!!!!",
+"sonido": {
+    "MUSICA":"sonidos/Summer Mood (+2 pitch) loop.mp3",
+    "CLICK": "sonidos/bubble-pop-389501.mp3",
+    "TECLAS": "sonidos/typing-sound-02-229861.mp3"
+},
+"FUENTES": {
+    "TITULO": ["Comic Sans MS", 32],
+    "SUBTITULO": ["Comic Sans MS", 18],
+    "INPUT": ["Comic Sans MS", 22],
+    "ESTADISTICAS": ["Comic Sans MS", 18]
+    },
+"COLORES": {
+    "BG": [240, 240, 240],
+    "NEGRO": [0, 0, 0],
+    "GRIS_CLARO": [200, 200, 200],
+    "VERDE": [0, 170, 0],
+    "AMARILLO": [220, 190, 0],
+    "CAJA": [255, 255, 255],
+    "BORDE": [170, 170, 170],
+    "AZUL": [0, 117, 191],
+    "NARANJA": [255, 140, 0]
+}
+}

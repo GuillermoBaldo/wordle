@@ -1,8 +1,7 @@
 import os
 import json
 
-RUTA_USUARIOS = "archivos/usuarios.json"
-RUTA_CONFIG = "archivos/config.json"
+RUTA_USUARIOS = "/Users/guille/Documents/computacion/wordle/archivos/usuarios.json"
 
 def inicializar_json() -> None:
     """Crea el archivo JSON de usuarios si no existe.
@@ -22,15 +21,6 @@ def cargar_usuarios() -> dict:
     """
     inicializar_json()
     with open(RUTA_USUARIOS, "r") as archivo:
-        return json.load(archivo)
-    
-def cargar_config() -> dict:
-    """Lee los datos del archivo config.json.
-
-    Returns:
-        dict: Contenido completo del JSON.
-    """
-    with open(RUTA_CONFIG, "r") as archivo:
         return json.load(archivo)
 
 def guardar_usuarios(data: dict) -> None:
@@ -58,7 +48,7 @@ def registrar_usuario(nombre: str, contraseña: str) -> None:
     data = cargar_usuarios()
     existe_usuario = True
     for usuario in data["usuarios"]:
-        if usuario["nombre"] == nombre or  nombre== "":
+        if usuario["nombre"] == nombre:
             print("⚠️ El usuario ya existe.")
             existe_usuario = False
             break
@@ -70,15 +60,12 @@ def registrar_usuario(nombre: str, contraseña: str) -> None:
             "estadisticas": {
                 "puntaje_total": 0,
                 "errores": 0,
-                "niveles_completados": 0,
-                "partidas_completadas": 0,
-                "tiempo_juegado":0
+                "niveles_completados": 0
             }
         }
         data["usuarios"].append(nuevo_usuario)
         guardar_usuarios(data)
         print("✅ Usuario registrado correctamente.")
-    return existe_usuario
 
 def login_usuario(nombre: str, contraseña: str) -> dict | None:
     """Valida usuario y contraseña.
@@ -101,7 +88,7 @@ def login_usuario(nombre: str, contraseña: str) -> dict | None:
         print("❌ Usuario o contraseña incorrectos.")
     return resultado
 
-def actualizar_estadisticas(nombre: str, datos) -> None:
+def actualizar_estadisticas(nombre: str, puntaje: int, errores: int, nivel: int) -> None:
     """Actualiza las estadísticas acumuladas del usuario.
 
     Args:
@@ -116,30 +103,9 @@ def actualizar_estadisticas(nombre: str, datos) -> None:
     data = cargar_usuarios()
     for usuario in data["usuarios"]:
         if usuario["nombre"] == nombre:
-            usuario["estadisticas"]["puntaje_total"] = datos["puntos_totales"]
-            usuario["estadisticas"]["errores"] = datos["errores_totales"]
-            usuario["estadisticas"]["niveles_completados"] = datos["nivel"]
-            usuario["estadisticas"]["partidas_completadas"] = datos["partida"]
-            
-    guardar_usuarios(data)
-
-def actualizar_estadistica_tiempo(nombre: str, tiempo_jugado) -> None:
-    """Actualiza las estadísticas acumuladas del usuario.
-
-    Args:
-        nombre (str): Nombre del usuario a modificar.
-        puntaje (int): Puntos a sumar.
-        errores (int): Errores a acumular.
-        nivel (int): Último nivel alcanzado.
-
-    Returns:
-        None
-    """
-    data = cargar_usuarios()
-    for usuario in data["usuarios"]:
-        if usuario["nombre"] == nombre:
-            usuario["estadisticas"]["tiempo_juegado"] = tiempo_jugado
-            
+            usuario["estadisticas"]["puntaje_total"] += puntaje
+            usuario["estadisticas"]["errores"] += errores
+            usuario["estadisticas"]["niveles_completados"] = nivel
     guardar_usuarios(data)
     
 def inicializar_estadisticas(nombre: str) -> None:

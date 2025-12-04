@@ -4,108 +4,66 @@
             "nombre": "guille",
             "contrase\u00f1a": "guille",
             "estadisticas": {
-                "puntaje_total": 250,
+                "puntaje_total": 300,
+                "errores": 18,
+                "niveles_completados": 1,
+                "partidas_completadas": 2,
+                "tiempo_juegado": 54.3368661403656
+            }
+        },
+        {
+            "nombre": "GUILLE",
+            "contrase\u00f1a": "GUILLE",
+            "estadisticas": {
+                "puntaje_total": 0,
+                "errores": 0,
+                "niveles_completados": 1,
+                "partidas_completadas": 1,
+                "tiempo_juegado": 0
+            }
+        },
+        {
+            "nombre": "jime<3",
+            "contrase\u00f1a": "jime<3",
+            "estadisticas": {
+                "puntaje_total": 2000,
                 "errores": 1,
-                "niveles_completados": 1
+                "niveles_completados": 1,
+                "partidas_completadas": 2,
+                "tiempo_juegado": 20.085299968719482
+            }
+        },
+        {
+            "nombre": "pat",
+            "contrase\u00f1a": "pat",
+            "estadisticas": {
+                "puntaje_total": 0,
+                "errores": 0,
+                "niveles_completados": 0,
+                "partidas_completadas": 0,
+                "tiempo_juegado": 0
             }
         },
         {
             "nombre": "valen",
             "contrase\u00f1a": "valen",
             "estadisticas": {
-                "puntaje_total": 300,
+                "puntaje_total": 1800,
                 "errores": 0,
-                "niveles_completados": 1
+                "niveles_completados": 2,
+                "partidas_completadas": 3,
+                "tiempo_juegado": 45.70515704154968
             }
         },
         {
-            "nombre": "patru",
-            "contrase\u00f1a": "patri",
-            "estadisticas": {
-                "puntaje_total": 0,
-                "errores": 0,
-                "niveles_completados": 0
-            }
-        },
-        {
-            "nombre": "tomas",
-            "contrase\u00f1a": "1234",
-            "estadisticas": {
-                "puntaje_total": 0,
-                "errores": 0,
-                "niveles_completados": 0
-            }
-        },
-        {
-            "nombre": "XxvalenxXgamer",
-            "contrase\u00f1a": "1234",
-            "estadisticas": {
-                "puntaje_total": 0,
-                "errores": 0,
-                "niveles_completados": 0
-            }
-        },
-        {
-            "nombre": "rocio",
-            "contrase\u00f1a": "rocio",
-            "estadisticas": {
-                "puntaje_total": 0,
-                "errores": 0,
-                "niveles_completados": 0
-            }
-        },
-        {
-            "nombre": "fede",
-            "contrase\u00f1a": "fede",
-            "estadisticas": {
-                "puntaje_total": 0,
-                "errores": 0,
-                "niveles_completados": 0
-            }
-        },
-        {
-            "nombre": "marias",
-            "contrase\u00f1a": "marias",
-            "estadisticas": {
-                "puntaje_total": 0,
-                "errores": 0,
-                "niveles_completados": 0
-            }
-        },
-        {
-            "nombre": "thigo",
-            "contrase\u00f1a": "thiago",
+            "nombre": "valen2",
+            "contrase\u00f1a": "valen2",
             "estadisticas": {
                 "puntaje_total": 300,
                 "errores": 0,
-                "niveles_completados": 1
-            }
-        },
-        {
-            "nombre": "xs",
-            "contrase\u00f1a": "xs",
-            "estadisticas": {
-                "puntaje_total": 0,
-                "errores": 0,
-                "niveles_completados": 0
-            }
-        },
-        {
-            "nombre": "german",
-            "contrase\u00f1a": "german",
-            "estadisticas": {
-                "puntaje_total": 2590,
-                "errores": 1,
-                "niveles_completados": 4
-            }
-        },
-        {
-            "nombre": "catrigod",
-            "contrase\u00f1a": "catriel",
-            "estadisticas": {
-                "puntaje_total": 0,
-                "errores": 0,
-                "niveles_completados": 0
+                "niveles_completados": 1,
+                "partidas_completadas": 1,
+                "tiempo_juegado": 38.28485465049744
             }
         }
     ]
